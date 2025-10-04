@@ -1,2 +1,13 @@
 .env
-/venv
+/venv.venv/
+venv/
+myenv/
+__pycache__/
+*.py[cod]
+*.pyo
+.DS_Store
+.vscode/
+.idea/
+playwright/.cache/
+.env
+config.local.yaml
