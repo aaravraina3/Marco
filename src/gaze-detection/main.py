@@ -18,14 +18,15 @@ RIGHT_EYE_BOTTOM = 374 #Add Right Eye Bottom Landmark
 
 #Manual Gaze Detection Parameter Tuning, I Just kept tweaking these values until it looked decent
 BLINK_THRESHOLD = 0.2
-VERTICAL_SENSITIVITY = 2.75
-HORIZONTAL_SENSITIVITY = 1.5
-VERTICAL_OFFSET = -550
-HORIZONTAL_OFFSET = -600
-SMOOTHING_FACTOR = 0.75 #Higher value = more smoothing, less responsive; lower value = less smoothing, more responsive (0.0 - 1.0)
 
-prev_gaze_x = None #Previous Gaze X Coordinate
-prev_gaze_y = None #Previous Gaze Y Coordinate
+# Distance detection parameters
+DISTANCE_HISTORY = []
+HISTORY_SIZE = 5
+SUPER_CLOSE_THRESHOLD = 310.0  # Super close to screen
+CLOSE_THRESHOLD = 240.0        # Slightly close to screen
+FAR_THRESHOLD = 150.0          # Slightly far from screen
+SUPER_FAR_THRESHOLD = 120.0    # Super far from screen
+OPTIMAL_DISTANCE = 200.0       # Your default optimal distance
 
 def midpoint(p1, p2):
     return ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2) #Calculate the midpoint of two points
@@ -38,8 +39,36 @@ def eye_aspect_ratio(top, bottom, horizontal):
     horizontal_dist = euclidean_dist(horizontal[0], horizontal[1])
     return vertical_dist / horizontal_dist if horizontal_dist > 0 else 0 #Calculate the eye aspect ratio
 
+def calculate_eye_distance(left_eye_coords, right_eye_coords):
+    """Calculate distance between eye centers"""
+    left_center = midpoint(left_eye_coords[0], left_eye_coords[1])
+    right_center = midpoint(right_eye_coords[0], right_eye_coords[1])
+    return euclidean_dist(left_center, right_center)
+
+def detect_distance(eye_distance):
+    """Detect if person is close, far, or optimal distance"""
+    global DISTANCE_HISTORY
+    
+    # Add to history for smoothing
+    DISTANCE_HISTORY.append(eye_distance)
+    if len(DISTANCE_HISTORY) > HISTORY_SIZE:
+        DISTANCE_HISTORY.pop(0)
+    
+    # Use smoothed distance
+    smoothed_distance = sum(DISTANCE_HISTORY) / len(DISTANCE_HISTORY)
+    
+    if smoothed_distance > SUPER_CLOSE_THRESHOLD:
+        return "SUPER CLOSE", smoothed_distance
+    elif smoothed_distance > CLOSE_THRESHOLD:
+        return "SLIGHTLY CLOSE", smoothed_distance
+    elif smoothed_distance < SUPER_FAR_THRESHOLD:
+        return "SUPER FAR", smoothed_distance
+    elif smoothed_distance < FAR_THRESHOLD:
+        return "SLIGHTLY FAR", smoothed_distance
+    else:
+        return "OPTIMAL", smoothed_distance
+
 def main():
-    global prev_gaze_x, prev_gaze_y
     screen_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)) #Get the width of the screen (width of the frame)
     screen_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) #Get the height of the screen (height of the frame)
 
@@ -53,17 +82,25 @@ def main():
         results = face_mesh.process(frame)
         frame.flags.writeable = True
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) #Convert the frame from RGB to BGR to display the frame
+        frame = cv2.flip(frame, 1) #Flip the frame horizontally to fix inverted camera
 
+        h, w = frame.shape[:2] #Get the height and width of the frame
         is_blinking = "Not Blinking"
+        distance_status = "NO FACE"
+        eye_distance = 0.0
 
         if results.multi_face_landmarks:
             for face_landmarks in results.multi_face_landmarks:
-                h, w = frame.shape[:2] #Get the height and width of the frame (height and width of the frame)
 
+                # Get coordinates before flipping (for MediaPipe processing)
                 left_iris_coords = [(int(face_landmarks.landmark[i].x * w),
                                     int(face_landmarks.landmark[i].y * h)) for i in LEFT_IRIS] #Get the coordinates of the left iris
                 right_iris_coords = [(int(face_landmarks.landmark[i].x * w),
                                      int(face_landmarks.landmark[i].y * h)) for i in RIGHT_IRIS] #Get the coordinates of the right iris
+
+                # Flip coordinates to match the flipped frame
+                left_iris_coords = [(w - coord[0], coord[1]) for coord in left_iris_coords]
+                right_iris_coords = [(w - coord[0], coord[1]) for coord in right_iris_coords]
 
                 for coord in left_iris_coords + right_iris_coords:
                     cv2.circle(frame, coord, 2, (0, 0, 255), -1) #Draw circles on the iris landmarks
@@ -74,22 +111,23 @@ def main():
                 cv2.circle(frame, left_iris_center, 3, (0, 255, 0), -1) #Draw circles on the iris center
                 cv2.circle(frame, right_iris_center, 3, (0, 255, 0), -1) #Draw circles on the iris center
 
-                left_eye_left = (int(face_landmarks.landmark[LEFT_EYE[0]].x * w),
+                # Get eye coordinates and flip them to match the flipped frame
+                left_eye_left = (w - int(face_landmarks.landmark[LEFT_EYE[0]].x * w),
                                 int(face_landmarks.landmark[LEFT_EYE[0]].y * h)) #Get the coordinates of the left eye
-                left_eye_right = (int(face_landmarks.landmark[LEFT_EYE[1]].x * w),
+                left_eye_right = (w - int(face_landmarks.landmark[LEFT_EYE[1]].x * w),
                                  int(face_landmarks.landmark[LEFT_EYE[1]].y * h)) #Get the coordinates of the left eye
-                left_eye_top = (int(face_landmarks.landmark[LEFT_EYE_TOP].x * w),
+                left_eye_top = (w - int(face_landmarks.landmark[LEFT_EYE_TOP].x * w),
                                int(face_landmarks.landmark[LEFT_EYE_TOP].y * h)) #Get the coordinates of the left eye
-                left_eye_bottom = (int(face_landmarks.landmark[LEFT_EYE_BOTTOM].x * w),
+                left_eye_bottom = (w - int(face_landmarks.landmark[LEFT_EYE_BOTTOM].x * w),
                                   int(face_landmarks.landmark[LEFT_EYE_BOTTOM].y * h)) #Get the coordinates of the left eye
 
-                right_eye_left = (int(face_landmarks.landmark[RIGHT_EYE[1]].x * w),
+                right_eye_left = (w - int(face_landmarks.landmark[RIGHT_EYE[1]].x * w),
                                  int(face_landmarks.landmark[RIGHT_EYE[1]].y * h)) #Get the coordinates of the right eye
-                right_eye_right = (int(face_landmarks.landmark[RIGHT_EYE[0]].x * w),
+                right_eye_right = (w - int(face_landmarks.landmark[RIGHT_EYE[0]].x * w),
                                   int(face_landmarks.landmark[RIGHT_EYE[0]].y * h)) #Get the coordinates of the right eye       
-                right_eye_top = (int(face_landmarks.landmark[RIGHT_EYE_TOP].x * w),
+                right_eye_top = (w - int(face_landmarks.landmark[RIGHT_EYE_TOP].x * w),
                                 int(face_landmarks.landmark[RIGHT_EYE_TOP].y * h)) #Get the coordinates of the right eye
-                right_eye_bottom = (int(face_landmarks.landmark[RIGHT_EYE_BOTTOM].x * w),
+                right_eye_bottom = (w - int(face_landmarks.landmark[RIGHT_EYE_BOTTOM].x * w),
                                    int(face_landmarks.landmark[RIGHT_EYE_BOTTOM].y * h)) #Get the coordinates of the right eye
 
                 left_ear = eye_aspect_ratio(left_eye_top, left_eye_bottom, [left_eye_left, left_eye_right]) #Calculate the eye aspect ratio of the left eye
@@ -99,36 +137,31 @@ def main():
                 if avg_ear < BLINK_THRESHOLD: #If the eye aspect ratio is less than the threshold, the eye is blinking
                     is_blinking = "Blinking"
 
-                left_eye_width = euclidean_dist(left_eye_left, left_eye_right) #Calculate the width of the left eye
-                right_eye_width = euclidean_dist(right_eye_left, right_eye_right) #Calculate the width of the right eye
+                # Calculate distance between eyes
+                left_eye_coords = [left_eye_left, left_eye_right]
+                right_eye_coords = [right_eye_left, right_eye_right]
+                eye_distance = calculate_eye_distance(left_eye_coords, right_eye_coords)
+                distance_status, smoothed_distance = detect_distance(eye_distance)
 
-                left_iris_x_ratio = (left_iris_center[0] - left_eye_left[0]) / left_eye_width if left_eye_width > 0 else 0.5 #Calculate the ratio of the left iris to the left eye
-                left_iris_y_ratio = (left_iris_center[1] - left_eye_top[1]) / euclidean_dist(left_eye_top, left_eye_bottom) if euclidean_dist(left_eye_top, left_eye_bottom) > 0 else 0.5
-
-                right_iris_x_ratio = (right_iris_center[0] - right_eye_left[0]) / right_eye_width if right_eye_width > 0 else 0.5 #Calculate the ratio of the right iris to the right eye
-                right_iris_y_ratio = (right_iris_center[1] - right_eye_top[1]) / euclidean_dist(right_eye_top, right_eye_bottom) if euclidean_dist(right_eye_top, right_eye_bottom) > 0 else 0.5 #Calculate the ratio of the right iris to the right eye
-
-                avg_x_ratio = (left_iris_x_ratio + right_iris_x_ratio) / 2 #Calculate the average ratio of the iris to the eye
-                avg_y_ratio = (left_iris_y_ratio + right_iris_y_ratio) / 2 #Calculate the average ratio of the iris to the eye
-
-                gaze_x = int((1 - avg_x_ratio) * w * HORIZONTAL_SENSITIVITY) + HORIZONTAL_OFFSET #Calculate the gaze x coordinate
-                gaze_y = int((1 - avg_y_ratio) * h * VERTICAL_SENSITIVITY) + VERTICAL_OFFSET #Calculate the gaze y coordinate
-
-                if prev_gaze_x is not None and prev_gaze_y is not None:
-                    gaze_x = int(prev_gaze_x * SMOOTHING_FACTOR + gaze_x * (1 - SMOOTHING_FACTOR)) #Smooth the gaze x coordinate
-                    gaze_y = int(prev_gaze_y * SMOOTHING_FACTOR + gaze_y * (1 - SMOOTHING_FACTOR)) #Smooth the gaze y coordinate
-
-                prev_gaze_x = gaze_x #Update the previous gaze x coordinate
-                prev_gaze_y = gaze_y #Update the previous gaze y coordinate
-
-                gaze_x = max(0, min(gaze_x, w - 1)) #Clip the gaze x coordinate to the width of the frame
-                gaze_y = max(0, min(gaze_y, h - 1)) #Clip the gaze y coordinate to the height of the frame
-
-                cv2.circle(frame, (gaze_x, gaze_y), 5, (255, 0, 0), -1) #Draw a circle on the gaze point
-
+        # Draw status text
         cv2.putText(frame, is_blinking, (w - 200, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2) #Display the blinking status
+        
+        # Draw distance information with color coding
+        if distance_status == "OPTIMAL":
+            distance_color = (0, 255, 0)  # Green
+        elif distance_status in ["SLIGHTLY CLOSE", "SLIGHTLY FAR"]:
+            distance_color = (0, 255, 255)  # Yellow
+        else:  # SUPER CLOSE, SUPER FAR
+            distance_color = (0, 0, 255)  # Red
+            
+        cv2.putText(frame, f"Distance: {distance_status}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, distance_color, 2)
+        cv2.putText(frame, f"Eye Dist: {smoothed_distance:.1f}px", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+        
+        # Draw frame info
+        cv2.putText(frame, f"Frame: {w}x{h}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+        cv2.putText(frame, "Press 'q' to quit", (10, h - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2) #Display instructions
 
-        cv2.imshow("Frame", frame) #Display the frame
+        cv2.imshow("Healthcare Eye Tracker", frame) #Display the frame
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
