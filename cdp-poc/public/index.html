@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP Browser Stream - Proof of Concept</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .controls {
+            background: #1a1a1a;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        .url-bar {
+            flex: 1;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .url-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 0.5rem 1.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        
+        .status {
+            padding: 0.25rem 0.75rem;
+            background: #2a2a2a;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        
+        .status.connected {
+            background: #10b981;
+        }
+        
+        .status.disconnected {
+            background: #ef4444;
+        }
+        
+        .browser-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: #0f0f0f;
+            position: relative;
+        }
+        
+        .browser-viewport {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        #browserCanvas {
+            display: block;
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0,0,0,0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            max-width: 300px;
+        }
+        
+        .info h3 {
+            margin: 0 0 0.5rem 0;
+            color: #667eea;
+        }
+        
+        .info p {
+            margin: 0.25rem 0;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 CDP Browser Stream - Proof of Concept</h1>
+    </div>
+    
+    <div class="controls">
+        <div class="url-bar">
+            <input 
+                type="text" 
+                id="urlInput" 
+                class="url-input" 
+                placeholder="Enter URL..." 
+                value="https://www.google.com"
+            />
+            <button id="goBtn" class="btn">Go</button>
+        </div>
+        <div id="status" class="status disconnected">Disconnected</div>
+    </div>
+    
+    <div class="browser-container">
+        <div class="browser-viewport">
+            <canvas id="browserCanvas" width="1280" height="720"></canvas>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Connecting to browser...</p>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>🎮 Controls</h3>
+            <p>• Click to interact with the page</p>
+            <p>• Scroll with mouse wheel</p>
+            <p>• Type when focused on inputs</p>
+            <p>• Right-click for context menu</p>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('browserCanvas');
+        const ctx = canvas.getContext('2d');
+        const statusEl = document.getElementById('status');
+        const loadingEl = document.getElementById('loading');
+        const urlInput = document.getElementById('urlInput');
+        const goBtn = document.getElementById('goBtn');
+        
+        let ws = null;
+        let isConnected = false;
+        
+        // Connect to WebSocket
+        function connect() {
+            const wsUrl = `ws://${window.location.hostname}:${window.location.port || 3002}`;
+            console.log('Connecting to:', wsUrl);
+            
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                console.log('✅ Connected to CDP server');
+                isConnected = true;
+                statusEl.textContent = 'Connected';
+                statusEl.classList.remove('disconnected');
+                statusEl.classList.add('connected');
+                loadingEl.style.display = 'none';
+            };
+            
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                
+                if (msg.type === 'frame') {
+                    // Draw frame to canvas
+                    const img = new Image();
+                    img.onload = () => {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    };
+                    img.src = `data:image/jpeg;base64,${msg.data}`;
+                }
+            };
+            
+            ws.onclose = () => {
+                console.log('❌ Disconnected from CDP server');
+                isConnected = false;
+                statusEl.textContent = 'Disconnected';
+                statusEl.classList.remove('connected');
+                statusEl.classList.add('disconnected');
+                loadingEl.style.display = 'block';
+                
+                // Reconnect after 2 seconds
+                setTimeout(connect, 2000);
+            };
+            
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+            };
+        }
+        
+        // Send message to server
+        function send(msg) {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify(msg));
+            }
+        }
+        
+        // Handle mouse events
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (1280 / rect.width);
+            const y = (e.clientY - rect.top) * (720 / rect.height);
+            send({ type: 'click', x, y });
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (!e.buttons) return; // Only track when dragging
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (1280 / rect.width);
+            const y = (e.clientY - rect.top) * (720 / rect.height);
+            send({ type: 'move', x, y });
+        });
+        
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (1280 / rect.width);
+            const y = (e.clientY - rect.top) * (720 / rect.height);
+            send({ type: 'move', x, y });
+            send({ type: 'down' });
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            send({ type: 'up' });
+        });
+        
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            send({ type: 'scroll', deltaY: e.deltaY });
+        });
+        
+        // Handle keyboard events (when canvas is focused)
+        canvas.tabIndex = 1; // Make canvas focusable
+        
+        canvas.addEventListener('keydown', (e) => {
+            // Handle special keys
+            const specialKeys = ['Enter', 'Tab', 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+            if (specialKeys.includes(e.key)) {
+                e.preventDefault();
+                send({ type: 'keypress', key: e.key });
+            }
+        });
+        
+        canvas.addEventListener('keypress', (e) => {
+            e.preventDefault();
+            send({ type: 'type', text: e.key });
+        });
+        
+        // Handle URL navigation
+        function navigate() {
+            const url = urlInput.value.trim();
+            if (url) {
+                send({ type: 'goto', url });
+            }
+        }
+        
+        goBtn.addEventListener('click', navigate);
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                navigate();
+            }
+        });
+        
+        // Start connection
+        connect();
+        
+        // Focus canvas on load
+        canvas.focus();
+    </script>
+</body>
+</html>
