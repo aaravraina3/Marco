@@ -1,0 +1,37 @@
+# Default configuration for hand gesture recognition system
+
+# Camera settings
+camera:
+  index: 0
+  width: 640
+  height: 480
+  fps: 30
+
+# MediaPipe Hands settings
+mediapipe:
+  max_num_hands: 1
+  min_detection_confidence: 0.6
+  min_tracking_confidence: 0.6
+
+# Gesture recognition settings
+gestures:
+  # Open palm scroll settings
+  scroll:
+    vertical_deadzone_px_s: 30.0    # minimum vertical velocity to trigger scroll
+    gain: 0.05                      # velocity to pixel conversion factor
+    max_step_px_per_frame: 20       # maximum scroll pixels per frame
+    stop_on_hand_lost_ms: 500       # stop scrolling after hand lost (ms)
+    
+  # Index-only swipe settings  
+  swipe:
+    window_ms: 300                  # velocity averaging window (ms)
+    vx_thresh_px_s: 200.0          # minimum horizontal velocity threshold
+    vy_ratio_max: 0.5              # max vertical/horizontal velocity ratio
+    min_travel_frac: 0.15          # minimum travel as fraction of screen width
+    cooldown_ms: 800               # cooldown between swipes (ms)
+
+# Display settings
+display:
+  show_landmarks: true
+  show_palm_center: true
+  window_name: "Hand Gesture Recognition"
