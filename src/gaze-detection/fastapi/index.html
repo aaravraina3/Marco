@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaze Tracker - Production Ready</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .app-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .link-btn {
+            background: none;
+            color: #667eea;
+            text-decoration: underline;
+            margin-top: 15px;
+        }
+
+        .link-btn:hover {
+            background: none;
+            color: #5568d3;
+        }
+
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #video {
+            width: 100%;
+            display: block;
+            transform: scaleX(-1); /* Mirror the video for natural feel */
+        }
+
+        .calibration-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+        }
+
+        .calibration-dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .calibration-progress {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .gaze-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #00ff00;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+            pointer-events: none;
+            display: none;
+            z-index: 1000;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .controls .btn {
+            flex: 1;
+        }
+
+        .info-panel {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .calibration-instructions {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Container -->
+        <div class="auth-container" id="authContainer">
+            <h1>Gaze Tracker</h1>
+            <p class="subtitle">Login or register to start tracking your gaze</p>
+
+            <div id="authMessage"></div>
+
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password">
+                </div>
+                <button class="btn" onclick="login()">Login</button>
+                <button class="btn link-btn" onclick="showRegister()">Don't have an account? Register</button>
+            </div>
+
+            <div id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="registerUsername" placeholder="Choose username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" placeholder="Choose password">
+                </div>
+                <button class="btn" onclick="register()">Register</button>
+                <button class="btn link-btn" onclick="showLogin()">Already have an account? Login</button>
+            </div>
+        </div>
+
+        <!-- Main App Container -->
+        <div class="app-container" id="appContainer">
+            <h1>Gaze Tracker</h1>
+            <div id="userInfo" class="info-panel">
+                <div class="info-row">
+                    <span class="info-label">User:</span>
+                    <span class="info-value" id="currentUser"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value" id="calibrationStatus">Not Calibrated</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">FPS:</span>
+                    <span class="info-value" id="fpsCounter">0</span>
+                </div>
+            </div>
+
+            <div id="statusMessage" style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; max-width: 500px;"></div>
+            <div id="calibrationInstructions" class="calibration-instructions">
+                <strong>Calibration Instructions:</strong><br>
+                Look at each red dot and hold your gaze steady. Keep your head still and centered.
+                <div id="calibrationProgress"></div>
+            </div>
+
+            <div class="video-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="calibrationOverlay" class="calibration-overlay"></canvas>
+                <div id="gazeDot" class="gaze-dot"></div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="startCalibrationBtn" onclick="startCalibration()">Start Calibration</button>
+                <button class="btn btn-secondary" id="startTrackingBtn" onclick="startTracking()" disabled>Start Tracking</button>
+                <button class="btn btn-danger" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let sessionId = null;
+        let username = null;
+        let videoStream = null;
+        let isCalibrating = false;
+        let isTracking = false;
+        let calibrationCanvas = null;
+        let calibrationCtx = null;
+
+        // Show/Hide forms
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        // Auth functions
+        async function register() {
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+
+            if (!username || !password) {
+                showAuthMessage('Please fill in all fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAuthMessage('Registration successful! Please login.', 'success');
+                    showLogin();
+                } else {
+                    showAuthMessage(data.detail || 'Registration failed', 'error');
+                }
+            } catch (error) {
+                showAuthMessage('Network error: ' + error.message, 'error');
+            }
+        }
+
+        async function login() {
+            const user = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!user || !password) {
+                showAuthMessage('Please fill in all fields', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    username = data.username;
+                    sessionId = data.session_id;
+                    localStorage.setItem('sessionId', sessionId);
+                    localStorage.setItem('username', username);
+                    showApp();
+                } else {
+                    showAuthMessage(data.detail || 'Login failed', 'error');
+                }
+            } catch (error) {
+                showAuthMessage('Network error: ' + error.message, 'error');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('sessionId');
+            localStorage.removeItem('username');
+            sessionId = null;
+            username = null;
+            if (ws) ws.close();
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+            }
+            document.getElementById('authContainer').style.display = 'block';
+            document.getElementById('appContainer').style.display = 'none';
+        }
+
+        function showAuthMessage(message, type) {
+            const el = document.getElementById('authMessage');
+            el.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => el.innerHTML = '', 5000);
+        }
+
+        function showStatusMessage(message, type) {
+            const el = document.getElementById('statusMessage');
+            el.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => el.innerHTML = '', 5000);
+        }
+
+        // App functions
+        async function showApp() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+            document.getElementById('currentUser').textContent = username;
+
+            // Setup camera
+            await setupCamera();
+
+            // Connect WebSocket
+            connectWebSocket();
+        }
+
+        async function setupCamera() {
+            try {
+                videoStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                });
+                const video = document.getElementById('video');
+                video.srcObject = videoStream;
+
+                calibrationCanvas = document.getElementById('calibrationOverlay');
+                video.addEventListener('loadedmetadata', () => {
+                    calibrationCanvas.width = video.videoWidth;
+                    calibrationCanvas.height = video.videoHeight;
+                    calibrationCtx = calibrationCanvas.getContext('2d');
+                });
+            } catch (error) {
+                showStatusMessage('Camera access denied: ' + error.message, 'error');
+            }
+        }
+
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${window.location.host}/ws/gaze/${sessionId}`);
+
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                const video = document.getElementById('video');
+                ws.send(JSON.stringify({
+                    type: 'init',
+                    width: video.videoWidth || 1280,
+                    height: video.videoHeight || 720
+                }));
+            };
+
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                handleWebSocketMessage(msg);
+            };
+
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                showStatusMessage('Connection error', 'error');
+            };
+
+            ws.onclose = () => {
+                console.log('WebSocket closed');
+            };
+        }
+
+        function handleWebSocketMessage(msg) {
+            console.log('WebSocket message received:', msg.type, msg.data);
+
+            if (msg.type === 'initialized') {
+                if (msg.data.calibrated) {
+                    document.getElementById('calibrationStatus').textContent = 'Calibrated';
+                    document.getElementById('startTrackingBtn').disabled = false;
+                    showStatusMessage('Calibration loaded from previous session', 'success');
+                } else {
+                    showStatusMessage('Please calibrate before tracking', 'info');
+                }
+            }
+
+            else if (msg.type === 'calibration_started') {
+                isCalibrating = true;
+                document.getElementById('calibrationInstructions').style.display = 'block';
+                calibrationCanvas.style.display = 'block';
+                drawCalibrationPoint(msg.data.point, 0);
+                updateCalibrationProgress(1, 25);
+            }
+
+            else if (msg.type === 'calibration_update') {
+                const data = msg.data;
+
+                if (data.status === 'collecting') {
+                    console.log('Collecting sample', data.samples_collected, '/', 20, '- Progress:', Math.round(data.progress * 100) + '%');
+                    updateCalibrationProgress(data.point_index + 1, data.total_points);
+                    drawCalibrationProgress(data.progress);
+                    // Clear any error messages when collecting successfully
+                    document.getElementById('statusMessage').innerHTML = '';
+                }
+
+                else if (data.status === 'next_point') {
+                    console.log('*** NEXT POINT RECEIVED ***');
+                    console.log('Point index:', data.point_index + 1, '/', data.total_points);
+                    console.log('Point position:', data.point);
+                    console.log('Current calibration point before update:', currentCalPoint);
+
+                    drawCalibrationPoint(data.point, 0);
+                    updateCalibrationProgress(data.point_index + 1, data.total_points);
+
+                    console.log('Current calibration point after update:', currentCalPoint);
+                    console.log('Canvas should now show dot at:', data.point);
+
+                    document.getElementById('statusMessage').innerHTML = '';
+                }
+
+                else if (data.status === 'complete') {
+                    isCalibrating = false;
+                    calibrationCanvas.style.display = 'none';
+                    document.getElementById('calibrationInstructions').style.display = 'none';
+                    document.getElementById('calibrationStatus').textContent = 'Calibrated';
+                    document.getElementById('startTrackingBtn').disabled = false;
+                    showStatusMessage(data.message + ` (${data.total_time}s)`, 'success');
+                }
+
+                else if (data.status === 'no_face') {
+                    // Silently skip - don't show warning to avoid screen shake
+                    console.log('No face detected, skipping frame');
+                }
+
+                else if (data.status === 'low_quality') {
+                    // Silently skip - don't show warning to avoid screen shake
+                    console.log('Low quality frame, skipping');
+                }
+
+                else if (data.status === 'timeout') {
+                    // Silently move to next point - handled by next_point message
+                    console.log('Point timeout, moving to next');
+                }
+
+                else if (data.status === 'error') {
+                    showStatusMessage('ERROR: ' + data.message, 'error');
+                }
+            }
+
+            else if (msg.type === 'gaze' && isTracking) {
+                const data = msg.data;
+                if (data.x !== null && data.y !== null) {
+                    updateGazeDot(data.x, data.y);
+                }
+                if (data.fps) {
+                    document.getElementById('fpsCounter').textContent = data.fps;
+                }
+            }
+        }
+
+        let currentCalPoint = null;
+        let currentProgress = 0;
+
+        function drawCalibrationPoint(point, progress = 0) {
+            currentCalPoint = point;
+            currentProgress = progress;
+
+            calibrationCtx.clearRect(0, 0, calibrationCanvas.width, calibrationCanvas.height);
+
+            // Draw red pulsing dot
+            calibrationCtx.fillStyle = 'red';
+            calibrationCtx.beginPath();
+            calibrationCtx.arc(point[0], point[1], 15, 0, Math.PI * 2);
+            calibrationCtx.fill();
+
+            // Draw white background ring
+            calibrationCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            calibrationCtx.lineWidth = 5;
+            calibrationCtx.beginPath();
+            calibrationCtx.arc(point[0], point[1], 30, 0, Math.PI * 2);
+            calibrationCtx.stroke();
+
+            // Draw progress arc (starts from top, goes clockwise)
+            if (progress > 0) {
+                calibrationCtx.strokeStyle = '#00ff00';
+                calibrationCtx.lineWidth = 5;
+                calibrationCtx.beginPath();
+                // Start from -90 degrees (top), sweep clockwise
+                const startAngle = -Math.PI / 2;
+                const endAngle = startAngle + (2 * Math.PI * progress);
+                calibrationCtx.arc(point[0], point[1], 30, startAngle, endAngle);
+                calibrationCtx.stroke();
+            }
+        }
+
+        function drawCalibrationProgress(progress) {
+            if (currentCalPoint) {
+                currentProgress = progress;
+
+                calibrationCtx.clearRect(0, 0, calibrationCanvas.width, calibrationCanvas.height);
+
+                // Draw red dot
+                calibrationCtx.fillStyle = 'red';
+                calibrationCtx.beginPath();
+                calibrationCtx.arc(currentCalPoint[0], currentCalPoint[1], 15, 0, Math.PI * 2);
+                calibrationCtx.fill();
+
+                // Draw white background ring
+                calibrationCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                calibrationCtx.lineWidth = 5;
+                calibrationCtx.beginPath();
+                calibrationCtx.arc(currentCalPoint[0], currentCalPoint[1], 30, 0, Math.PI * 2);
+                calibrationCtx.stroke();
+
+                // Draw progress arc (animated)
+                calibrationCtx.strokeStyle = '#00ff00';
+                calibrationCtx.lineWidth = 5;
+                calibrationCtx.beginPath();
+                const startAngle = -Math.PI / 2;
+                const endAngle = startAngle + (2 * Math.PI * progress);
+                calibrationCtx.arc(currentCalPoint[0], currentCalPoint[1], 30, startAngle, endAngle);
+                calibrationCtx.stroke();
+
+                // Draw percentage text
+                calibrationCtx.fillStyle = 'white';
+                calibrationCtx.font = 'bold 12px Arial';
+                calibrationCtx.textAlign = 'center';
+                calibrationCtx.textBaseline = 'middle';
+                calibrationCtx.fillText(Math.round(progress * 100) + '%', currentCalPoint[0], currentCalPoint[1] + 50);
+            }
+        }
+
+        function updateCalibrationProgress(current, total) {
+            document.getElementById('calibrationProgress').innerHTML =
+                `<br>Point ${current} of ${total}`;
+        }
+
+        function updateGazeDot(x, y) {
+            const dot = document.getElementById('gazeDot');
+            const video = document.getElementById('video');
+            const rect = video.getBoundingClientRect();
+
+            // Scale coordinates to video display size
+            const scaleX = rect.width / video.videoWidth;
+            const scaleY = rect.height / video.videoHeight;
+
+            // Flip x-coordinate because video is mirrored
+            const flippedX = video.videoWidth - x;
+
+            dot.style.left = (flippedX * scaleX) + 'px';
+            dot.style.top = (y * scaleY) + 'px';
+            dot.style.display = 'block';
+        }
+
+        function startCalibration() {
+            const video = document.getElementById('video');
+            ws.send(JSON.stringify({
+                type: 'start_calibration',
+                width: video.videoWidth,
+                height: video.videoHeight
+            }));
+        }
+
+        function startTracking() {
+            isTracking = !isTracking;
+            const btn = document.getElementById('startTrackingBtn');
+
+            if (isTracking) {
+                btn.textContent = 'Stop Tracking';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-danger');
+                document.getElementById('gazeDot').style.display = 'block';
+            } else {
+                btn.textContent = 'Start Tracking';
+                btn.classList.add('btn-secondary');
+                btn.classList.remove('btn-danger');
+                document.getElementById('gazeDot').style.display = 'none';
+            }
+        }
+
+        // Send frames continuously
+        setInterval(() => {
+            if (ws && ws.readyState === WebSocket.OPEN && videoStream) {
+                const video = document.getElementById('video');
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+
+                // Flip horizontally to match what user sees (mirror mode)
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+                ctx.drawImage(video, 0, 0);
+                ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+
+                const frameData = canvas.toDataURL('image/jpeg', 0.7);
+
+                if (isCalibrating) {
+                    ws.send(JSON.stringify({
+                        type: 'calibration_frame',
+                        data: frameData
+                    }));
+                } else if (isTracking) {
+                    ws.send(JSON.stringify({
+                        type: 'frame',
+                        data: frameData
+                    }));
+                }
+            }
+        }, 100); // 10 FPS
+
+        // Auto-login if session exists
+        window.addEventListener('load', () => {
+            const savedSessionId = localStorage.getItem('sessionId');
+            const savedUsername = localStorage.getItem('username');
+
+            if (savedSessionId && savedUsername) {
+                sessionId = savedSessionId;
+                username = savedUsername;
+                showApp();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,3 +1,11 @@
+# Environment files
+.venv
+env
+venv
+
+# Claude
+.claude
+CLAUDE.md
 .env
 /venv
 /cdp-poc/node_modules

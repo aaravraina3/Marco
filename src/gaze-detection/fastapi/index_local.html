@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Gaze Tracker - JavaScript Port</title>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .app-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #video {
+            width: 100%;
+            display: block;
+            transform: scaleX(-1);
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .calibration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            display: none;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .gaze-shape-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        .gaze-dot {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            background: #00ff00;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 1), 0 0 40px rgba(0, 255, 0, 0.6);
+            pointer-events: none;
+            display: none;
+            z-index: 10000;
+            animation: gazePulse 1.5s ease-in-out infinite;
+            transition: border-radius 0.3s ease;
+        }
+
+        @keyframes gazePulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .controls {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9998;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            min-width: 200px;
+        }
+
+        .info-panel {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 9998;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            min-width: 200px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .calibration-instructions {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 243, 205, 0.95);
+            color: #856404;
+            padding: 15px 30px;
+            border-radius: 8px;
+            display: none;
+            z-index: 9998;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-container" id="appContainer">
+            <h1>Local Gaze Tracker - No Calibration Required!</h1>
+            
+            <div id="statusMessage"></div>
+            
+            <div id="infoPanel" class="info-panel">
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value" id="trackingStatus">Ready</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">FPS:</span>
+                    <span class="info-value" id="fpsCounter">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Face Detected:</span>
+                    <span class="info-value" id="faceDetected">No</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Gaze X:</span>
+                    <span class="info-value" id="gazeX">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Gaze Y:</span>
+                    <span class="info-value" id="gazeY">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Tracking:</span>
+                    <span class="info-value" id="trackingActive">Stopped</span>
+                </div>
+            </div>
+
+
+            <div class="video-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas"></canvas>
+                <canvas id="calibrationOverlay" class="calibration-overlay"></canvas>
+                <canvas id="gazeShapeCanvas" class="gaze-shape-overlay"></canvas>
+                <div id="gazeDot" class="gaze-dot"></div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="startTrackingBtn" onclick="startTracking()">Start Tracking</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the gaze tracker JavaScript -->
+    <script src="gaze_tracker_local.js"></script>
+    
+    <script>
+        let gazeTracker = null;
+        let isCalibrating = false;
+        let isTracking = false;
+        let video = null;
+        let canvas = null;
+        let ctx = null;
+        let gazeShapeCanvas = null;
+        let gazeShapeCtx = null;
+        let currentGazePosition = { x: 0, y: 0 };
+        let shapeAnimationId = null;
+        let calibrationCanvas = null;
+        let calibrationCtx = null;
+
+        async function init() {
+            try {
+                console.log('Initializing local gaze tracker...');
+                
+                // Setup video and canvas
+                video = document.getElementById('video');
+                canvas = document.getElementById('canvas');
+                ctx = canvas.getContext('2d');
+                calibrationCanvas = document.getElementById('calibrationOverlay');
+                calibrationCtx = calibrationCanvas.getContext('2d');
+                
+                // Setup gaze shape canvas
+                gazeShapeCanvas = document.getElementById('gazeShapeCanvas');
+                gazeShapeCtx = gazeShapeCanvas.getContext('2d');
+                gazeShapeCanvas.width = window.innerWidth;
+                gazeShapeCanvas.height = window.innerHeight;
+                
+                // Initialize gaze tracker
+                gazeTracker = new LocalGazeTracker();
+                
+                // Setup camera
+                await setupCamera();
+                
+                // Start face detection
+                await gazeTracker.initialize();
+                
+                document.getElementById('appContainer').style.display = 'block';
+                showStatusMessage('Local gaze tracker initialized successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                showStatusMessage('Initialization failed: ' + error.message, 'error');
+            }
+        }
+
+        async function setupCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { exact: 640 },
+                        height: { exact: 480 },
+                        frameRate: { ideal: 30 }
+                    }
+                });
+                
+                video.srcObject = stream;
+                
+                video.addEventListener('loadedmetadata', () => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    
+                    // Set calibration canvas to full screen
+                    calibrationCanvas.width = window.screen.width;
+                    calibrationCanvas.height = window.screen.height;
+                    
+                    console.log(`Camera initialized: ${video.videoWidth}x${video.videoHeight}`);
+                });
+                
+            } catch (error) {
+                throw new Error('Camera access denied: ' + error.message);
+            }
+        }
+
+
+        function startTracking() {
+            if (!gazeTracker) {
+                showStatusMessage('Gaze tracker not initialized', 'error');
+                return;
+            }
+            
+            isTracking = !isTracking;
+            const btn = document.getElementById('startTrackingBtn');
+            const gazeDot = document.getElementById('gazeDot');
+            const trackingStatus = document.getElementById('trackingStatus');
+            const trackingActive = document.getElementById('trackingActive');
+            
+            if (isTracking) {
+                btn.textContent = 'Stop Tracking';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-danger');
+                gazeDot.style.display = 'none'; // Hide the static dot
+                trackingStatus.textContent = 'Tracking Active';
+                trackingActive.textContent = 'Active';
+                gazeTracker.startTracking((gazeData) => {
+                    updateGazeDisplay(gazeData);
+                });
+                // Start the dynamic shape animation
+                animateShape();
+                showStatusMessage('Dynamic gaze tracking started!', 'success');
+            } else {
+                btn.textContent = 'Start Tracking';
+                btn.classList.add('btn-secondary');
+                btn.classList.remove('btn-danger');
+                gazeDot.style.display = 'none';
+                trackingStatus.textContent = 'Ready';
+                trackingActive.textContent = 'Stopped';
+                gazeTracker.stopTracking();
+                // Stop the shape animation
+                if (shapeAnimationId) {
+                    clearTimeout(shapeAnimationId);
+                    shapeAnimationId = null;
+                }
+                // Clear the shape canvas
+                gazeShapeCtx.clearRect(0, 0, gazeShapeCanvas.width, gazeShapeCanvas.height);
+                showStatusMessage('Gaze tracking stopped', 'info');
+            }
+        }
+
+
+        function updateGazeDisplay(gazeData) {
+            if (gazeData && gazeData.gazePoint) {
+                const scaleX = window.screen.width / 640;
+                const scaleY = window.screen.height / 480;
+                
+                const x = gazeData.gazePoint[0] * scaleX;
+                const y = gazeData.gazePoint[1] * scaleY;
+                
+                // Update current gaze position for shape generation
+                currentGazePosition.x = x;
+                currentGazePosition.y = y;
+                
+                // Update info panel
+                document.getElementById('gazeX').textContent = gazeData.gazePoint[0].toFixed(1);
+                document.getElementById('gazeY').textContent = gazeData.gazePoint[1].toFixed(1);
+            }
+            
+            if (gazeData && gazeData.fps) {
+                document.getElementById('fpsCounter').textContent = gazeData.fps;
+            }
+        }
+
+        // Dynamic curved shape generation
+        function generateRandomCurvedShape(centerX, centerY, baseRadius = 40) {
+            const points = [];
+            const numPoints = 8 + Math.floor(Math.random() * 8); // 8-15 points
+            
+            for (let i = 0; i < numPoints; i++) {
+                const angle = (i / numPoints) * Math.PI * 2;
+                const radiusVariation = 0.3 + Math.random() * 0.7; // 30% to 100% variation
+                const radius = baseRadius * radiusVariation;
+                
+                // Add random curvature variations
+                const curvatureX = (Math.random() - 0.5) * baseRadius * 0.4;
+                const curvatureY = (Math.random() - 0.5) * baseRadius * 0.4;
+                
+                const x = centerX + Math.cos(angle) * radius + curvatureX;
+                const y = centerY + Math.sin(angle) * radius + curvatureY;
+                
+                points.push({ x, y });
+            }
+            
+            return points;
+        }
+
+        function drawCurvedShape(points) {
+            if (points.length < 3) return;
+            
+            gazeShapeCtx.clearRect(0, 0, gazeShapeCanvas.width, gazeShapeCanvas.height);
+            
+            // Create smooth curved path
+            gazeShapeCtx.beginPath();
+            gazeShapeCtx.moveTo(points[0].x, points[0].y);
+            
+            for (let i = 1; i < points.length; i++) {
+                const current = points[i];
+                const next = points[(i + 1) % points.length];
+                const prev = points[(i - 1 + points.length) % points.length];
+                
+                // Calculate control points for smooth curves
+                const cp1x = current.x + (next.x - prev.x) * 0.1;
+                const cp1y = current.y + (next.y - prev.y) * 0.1;
+                
+                gazeShapeCtx.quadraticCurveTo(cp1x, cp1y, next.x, next.y);
+            }
+            
+            // Close the path smoothly
+            const last = points[points.length - 1];
+            const first = points[0];
+            
+            const cp1x = last.x + (first.x - points[points.length - 2].x) * 0.1;
+            const cp1y = last.y + (first.y - points[points.length - 2].y) * 0.1;
+            
+            gazeShapeCtx.quadraticCurveTo(cp1x, cp1y, first.x, first.y);
+            gazeShapeCtx.closePath();
+            
+            // Fill with glowing green
+            gazeShapeCtx.fillStyle = 'rgba(0, 255, 0, 0.3)';
+            gazeShapeCtx.fill();
+            
+            // Add glowing border
+            gazeShapeCtx.strokeStyle = '#00ff00';
+            gazeShapeCtx.lineWidth = 3;
+            gazeShapeCtx.shadowColor = '#00ff00';
+            gazeShapeCtx.shadowBlur = 15;
+            gazeShapeCtx.stroke();
+            
+            // Reset shadow
+            gazeShapeCtx.shadowBlur = 0;
+        }
+
+        function animateShape() {
+            if (!isTracking) return;
+            
+            // Generate new random curved shape
+            const shapePoints = generateRandomCurvedShape(
+                currentGazePosition.x, 
+                currentGazePosition.y,
+                35 + Math.random() * 20 // Base radius 35-55px
+            );
+            
+            drawCurvedShape(shapePoints);
+            
+            // Schedule next animation frame with random delay
+            const nextDelay = 200 + Math.random() * 800; // 200-1000ms
+            shapeAnimationId = setTimeout(animateShape, nextDelay);
+        }
+
+
+        function showStatusMessage(message, type) {
+            const el = document.getElementById('statusMessage');
+            el.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => el.innerHTML = '', 5000);
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
