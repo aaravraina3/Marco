@@ -53,3 +53,13 @@ facipa-facial-paralysis-diagnosis-and-detection/
 .env
 /venv
 facipa-facial-paralysis-diagnosis-and-detection/
+/cdp-poc/node_modules
+/healthcare-assistant-ts/.next
+/healthcare-assistant-ts/node_modules
+/healthcare-assistant-ts/build
+/healthcare-assistant-ts/out
+/healthcare-assistant-ts/dist
+/healthcare-assistant-ts/coverage
+/healthcare-assistant-ts/logs
+/healthcare-assistant-ts/tmp
+/healthcare-assistant-ts/cache
