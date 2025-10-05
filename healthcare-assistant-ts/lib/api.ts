@@ -41,6 +41,8 @@ export interface AgentResponse {
   response: string;
   tools_used?: string[];
   timestamp: string;
+  thread_id: string;
+  message_count: number;
   error?: string;
 }
 
@@ -141,17 +143,40 @@ class APIClient {
     return response.json();
   }
 
-  async processWithAgent(message: string): Promise<AgentResponse> {
+  async processWithAgent(message: string, threadId?: string): Promise<AgentResponse> {
     const response = await fetch(`${this.baseUrl}/agent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ 
+        message,
+        thread_id: threadId 
+      }),
     });
     
     if (!response.ok) {
       throw new Error(`Agent failed: ${response.statusText}`);
+    }
+    return response.json();
+  }
+  
+  async clearThread(threadId: string): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/agent/threads/${threadId}`, {
+      method: 'DELETE',
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to clear thread: ${response.statusText}`);
+    }
+    return response.json();
+  }
+  
+  async getThreadInfo(threadId: string): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/agent/threads/${threadId}`);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to get thread info: ${response.statusText}`);
     }
     return response.json();
   }
