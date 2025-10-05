@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP Stream Test Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #667eea;
+        }
+        
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        button:hover {
+            background: #5a67d8;
+        }
+        
+        #status {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #ef4444;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        
+        #status.connected {
+            background: #10b981;
+        }
+        
+        #canvas {
+            border: 2px solid #444;
+            border-radius: 8px;
+            display: block;
+            margin: 20px 0;
+            cursor: crosshair;
+        }
+        
+        .info {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .log {
+            background: #000;
+            padding: 10px;
+            border-radius: 4px;
+            height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        input[type="text"] {
+            background: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+            padding: 8px;
+            border-radius: 4px;
+            width: 400px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 CDP Stream Test Client</h1>
+        
+        <div class="controls">
+            <button id="connectBtn">Connect</button>
+            <button id="disconnectBtn" disabled>Disconnect</button>
+            <span id="status">Disconnected</span>
+        </div>
+        
+        <div class="controls">
+            <input type="text" id="urlInput" placeholder="Enter URL to navigate..." value="https://www.google.com">
+            <button id="goBtn">Go</button>
+            <button id="testClickBtn">Test Click (Center)</button>
+            <button id="testTypeBtn">Test Type</button>
+        </div>
+        
+        <canvas id="canvas" width="1280" height="720"></canvas>
+        
+        <div class="info">
+            <h3>📊 Statistics</h3>
+            <p>Frames Received: <span id="frameCount">0</span></p>
+            <p>FPS: <span id="fps">0</span></p>
+            <p>Connection Status: <span id="connStatus">Not Connected</span></p>
+            
+            <h3>📝 Log</h3>
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const statusEl = document.getElementById('status');
+        const frameCountEl = document.getElementById('frameCount');
+        const fpsEl = document.getElementById('fps');
+        const connStatusEl = document.getElementById('connStatus');
+        const logEl = document.getElementById('log');
+        
+        let ws = null;
+        let frameCount = 0;
+        let lastFrameTime = Date.now();
+        let fpsFrames = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${timestamp}] ${message}<br>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        function connect() {
+            const wsUrl = 'ws://localhost:8000/ws';
+            log(`Connecting to ${wsUrl}...`);
+            
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                log('✅ Connected to CDP server');
+                statusEl.textContent = 'Connected';
+                statusEl.classList.add('connected');
+                connStatusEl.textContent = 'Connected';
+                document.getElementById('connectBtn').disabled = true;
+                document.getElementById('disconnectBtn').disabled = false;
+            };
+            
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                
+                if (msg.type === 'frame') {
+                    // Draw frame to canvas
+                    const img = new Image();
+                    img.onload = () => {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // Update stats
+                        frameCount++;
+                        frameCountEl.textContent = frameCount;
+                        
+                        // Calculate FPS
+                        const now = Date.now();
+                        fpsFrames.push(now);
+                        fpsFrames = fpsFrames.filter(t => now - t < 1000);
+                        fpsEl.textContent = fpsFrames.length;
+                    };
+                    img.src = `data:image/jpeg;base64,${msg.data}`;
+                } else if (msg.type === 'status') {
+                    log(`Status: ${JSON.stringify(msg)}`);
+                } else if (msg.type === 'execution_start') {
+                    log(`🤖 Execution started: ${msg.instruction}`);
+                } else if (msg.type === 'execution_complete') {
+                    log(`✅ Execution complete: ${msg.instruction}`);
+                } else if (msg.type === 'execution_error') {
+                    log(`❌ Execution error: ${msg.error}`);
+                }
+            };
+            
+            ws.onclose = () => {
+                log('❌ Disconnected from CDP server');
+                statusEl.textContent = 'Disconnected';
+                statusEl.classList.remove('connected');
+                connStatusEl.textContent = 'Disconnected';
+                document.getElementById('connectBtn').disabled = false;
+                document.getElementById('disconnectBtn').disabled = true;
+            };
+            
+            ws.onerror = (error) => {
+                log(`❌ WebSocket error: ${error}`);
+            };
+        }
+        
+        function disconnect() {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        }
+        
+        function send(msg) {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify(msg));
+                log(`Sent: ${msg.type}`);
+            } else {
+                log('❌ Not connected');
+            }
+        }
+        
+        // Event handlers
+        document.getElementById('connectBtn').onclick = connect;
+        document.getElementById('disconnectBtn').onclick = disconnect;
+        
+        document.getElementById('goBtn').onclick = () => {
+            const url = document.getElementById('urlInput').value;
+            send({ type: 'goto', url });
+        };
+        
+        document.getElementById('testClickBtn').onclick = () => {
+            send({ type: 'click', x: 640, y: 360 });
+        };
+        
+        document.getElementById('testTypeBtn').onclick = () => {
+            const text = prompt('Enter text to type:');
+            if (text) {
+                send({ type: 'type', text });
+            }
+        };
+        
+        // Canvas click handler
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (1280 / rect.width);
+            const y = (e.clientY - rect.top) * (720 / rect.height);
+            send({ type: 'click', x, y });
+            log(`Clicked at (${Math.round(x)}, ${Math.round(y)})`);
+        });
+        
+        // Keyboard handler when canvas is focused
+        canvas.tabIndex = 1;
+        canvas.addEventListener('keypress', (e) => {
+            send({ type: 'type', text: e.key });
+        });
+    </script>
+</body>
+</html>

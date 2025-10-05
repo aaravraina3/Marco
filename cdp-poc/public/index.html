@@ -208,7 +208,7 @@
         
         // Connect to WebSocket
         function connect() {
-            const wsUrl = `ws://${window.location.hostname}:${window.location.port || 3002}`;
+            const wsUrl = `ws://${window.location.hostname}:${window.location.port || 3002}/ws`;
             console.log('Connecting to:', wsUrl);
             
             ws = new WebSocket(wsUrl);

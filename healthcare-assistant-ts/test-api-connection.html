@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Connection Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #0f0;
+        }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #0a0;
+        }
+        #output {
+            background: #000;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid #0f0;
+            min-height: 200px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #0f0;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 10px 0;
+        }
+        .status.online { background: #0f0; color: #000; }
+        .status.offline { background: #f00; color: #fff; }
+        .status.checking { background: #ff0; color: #000; }
+    </style>
+</head>
+<body>
+    <h1>🔌 API Connection Tester</h1>
+    
+    <div class="test-section">
+        <h2>Server Status</h2>
+        <div id="serverStatus" class="status checking">Checking...</div>
+        <button onclick="checkHealth()">Check Health</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Basic API Tests</h2>
+        <button onclick="testNavigate('google.com')">Navigate to google.com</button>
+        <button onclick="testNavigate('cnn.com')">Navigate to cnn.com</button>
+        <button onclick="testScreenshot()">Get Screenshot</button>
+        <button onclick="testStatus()">Get Status</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Agent Command Tests</h2>
+        <button onclick="testExecute('What is on the screen?')">Execute: What's on screen?</button>
+        <button onclick="testExecute('Search for AI news')">Execute: Search for AI news</button>
+        <button onclick="testAnalyze('Describe this page')">Analyze: Describe page</button>
+    </div>
+
+    <div id="output">Output will appear here...</div>
+
+    <script>
+        const API_URL = 'http://localhost:8001';
+        const output = document.getElementById('output');
+        
+        function log(message, isError = false) {
+            const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+            const prefix = isError ? '❌ ERROR' : '✅ SUCCESS';
+            output.textContent += `[${timestamp}] ${prefix}: ${message}\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        async function checkHealth() {
+            const statusEl = document.getElementById('serverStatus');
+            statusEl.className = 'status checking';
+            statusEl.textContent = 'Checking...';
+            
+            try {
+                const response = await fetch(`${API_URL}/`);
+                const data = await response.json();
+                
+                if (data.status === 'online') {
+                    statusEl.className = 'status online';
+                    statusEl.textContent = 'ONLINE';
+                    log(`Server is online: ${JSON.stringify(data)}`);
+                } else {
+                    statusEl.className = 'status offline';
+                    statusEl.textContent = 'OFFLINE';
+                    log(`Server offline: ${JSON.stringify(data)}`, true);
+                }
+            } catch (error) {
+                statusEl.className = 'status offline';
+                statusEl.textContent = 'OFFLINE';
+                log(`Cannot connect to server: ${error.message}`, true);
+            }
+        }
+
+        async function testNavigate(url) {
+            log(`\n>>> Testing Navigate to ${url}...`);
+            try {
+                const response = await fetch(`${API_URL}/navigate?url=${encodeURIComponent(url)}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log(`Navigate successful:\n${JSON.stringify(data, null, 2)}`);
+                } else {
+                    log(`Navigate failed (${response.status}):\n${JSON.stringify(data, null, 2)}`, true);
+                }
+            } catch (error) {
+                log(`Navigate error: ${error.message}`, true);
+            }
+        }
+
+        async function testScreenshot() {
+            log(`\n>>> Testing Screenshot...`);
+            try {
+                const response = await fetch(`${API_URL}/screenshot`);
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    log(`Screenshot captured:\n  URL: ${data.url}\n  Title: ${data.title}\n  Base64 Length: ${data.screenshot_base64.length}`);
+                } else {
+                    log(`Screenshot failed:\n${JSON.stringify(data, null, 2)}`, true);
+                }
+            } catch (error) {
+                log(`Screenshot error: ${error.message}`, true);
+            }
+        }
+
+        async function testStatus() {
+            log(`\n>>> Testing Status...`);
+            try {
+                const response = await fetch(`${API_URL}/status`);
+                const data = await response.json();
+                
+                log(`Status:\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                log(`Status error: ${error.message}`, true);
+            }
+        }
+
+        async function testExecute(instruction) {
+            log(`\n>>> Testing Execute: "${instruction}"...`);
+            try {
+                const response = await fetch(`${API_URL}/execute`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instruction })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    log(`Execute successful:\n${JSON.stringify(data, null, 2)}`);
+                } else {
+                    log(`Execute failed:\n${JSON.stringify(data, null, 2)}`, true);
+                }
+            } catch (error) {
+                log(`Execute error: ${error.message}`, true);
+            }
+        }
+
+        async function testAnalyze(query) {
+            log(`\n>>> Testing Analyze: "${query}"...`);
+            try {
+                const response = await fetch(`${API_URL}/analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    log(`Analyze successful:\nAnalysis: ${data.analysis}`);
+                } else {
+                    log(`Analyze failed:\n${JSON.stringify(data, null, 2)}`, true);
+                }
+            } catch (error) {
+                log(`Analyze error: ${error.message}`, true);
+            }
+        }
+
+        // Check health on load
+        window.onload = () => {
+            checkHealth();
+        };
+    </script>
+</body>
+</html>

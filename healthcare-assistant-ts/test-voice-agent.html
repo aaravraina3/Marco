@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice & Agent Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .test-section {
+            margin-bottom: 30px;
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #eee;
+        }
+        .test-commands {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .command-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .command-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .command-btn:active {
+            transform: translateY(0);
+        }
+        #response {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 100px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        #status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        #status.online {
+            background: #d4edda;
+            color: #155724;
+        }
+        #status.offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        #status.checking {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .voice-section {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        #voiceBtn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            cursor: pointer;
+            font-size: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+        }
+        #voiceBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+        #voiceBtn.listening {
+            animation: pulse 1.5s infinite;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(250, 112, 154, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(250, 112, 154, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(250, 112, 154, 0);
+            }
+        }
+        #transcript {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ Voice & Agent Command Tester</h1>
+        
+        <div id="status" class="checking">Checking server status...</div>
+        
+        <div class="voice-section">
+            <button id="voiceBtn" onclick="toggleVoice()">🎤</button>
+            <div id="transcript"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">🌐 Navigation Commands</div>
+            <div class="test-commands">
+                <button class="command-btn" onclick="sendCommand('Navigate to google.com')">Navigate to Google</button>
+                <button class="command-btn" onclick="sendCommand('Go to reddit.com')">Go to Reddit</button>
+                <button class="command-btn" onclick="sendCommand('Navigate to https://news.ycombinator.com')">Hacker News</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">🔍 Search & Interaction</div>
+            <div class="test-commands">
+                <button class="command-btn" onclick="sendCommand('Search for artificial intelligence news')">Search AI News</button>
+                <button class="command-btn" onclick="sendCommand('Click on the first search result')">Click First Result</button>
+                <button class="command-btn" onclick="sendCommand('Type healthcare automation in the search box')">Type Text</button>
+                <button class="command-btn" onclick="sendCommand('Find and click the Images tab')">Click Images Tab</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">📊 Analysis Commands</div>
+            <div class="test-commands">
+                <button class="command-btn" onclick="sendCommand('What\\'s on the screen?')">What's on Screen?</button>
+                <button class="command-btn" onclick="sendCommand('Analyze the current page')">Analyze Page</button>
+                <button class="command-btn" onclick="sendCommand('Describe what you see')">Describe Page</button>
+                <button class="command-btn" onclick="sendCommand('Tell me about this website')">About Website</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">🤖 Complex Agent Tasks</div>
+            <div class="test-commands">
+                <button class="command-btn" onclick="sendCommand('Navigate to google.com and search for Python tutorials')">Multi-Step Search</button>
+                <button class="command-btn" onclick="sendCommand('Find the login button and click it')">Find & Click</button>
+                <button class="command-btn" onclick="sendCommand('Scroll down to the bottom of the page')">Scroll Down</button>
+                <button class="command-btn" onclick="sendCommand('Go back to the previous page')">Go Back</button>
+            </div>
+        </div>
+
+        <div id="response">Response will appear here...</div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8001';
+        let recognition = null;
+        let isListening = false;
+
+        // Check server status
+        async function checkServerStatus() {
+            const statusEl = document.getElementById('status');
+            try {
+                const response = await fetch(`${API_URL}/`);
+                const data = await response.json();
+                if (data.status === 'online') {
+                    statusEl.className = 'online';
+                    statusEl.textContent = '✅ Server is online';
+                } else {
+                    statusEl.className = 'offline';
+                    statusEl.textContent = '❌ Server is offline';
+                }
+            } catch (error) {
+                statusEl.className = 'offline';
+                statusEl.textContent = '❌ Cannot connect to server';
+            }
+        }
+
+        // Send command to API
+        async function sendCommand(command) {
+            const responseEl = document.getElementById('response');
+            responseEl.textContent = `Sending: "${command}"...\n`;
+            
+            try {
+                // Determine which endpoint to use
+                let response;
+                
+                if (command.toLowerCase().includes('what') || 
+                    command.toLowerCase().includes('analyze') ||
+                    command.toLowerCase().includes('describe') ||
+                    command.toLowerCase().includes('tell me about')) {
+                    // Analysis endpoint
+                    response = await fetch(`${API_URL}/analyze`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: command })
+                    });
+                    const data = await response.json();
+                    responseEl.textContent = `Analysis Result:\n${data.analysis || data.error || 'No response'}`;
+                } else {
+                    // Execute endpoint for agent commands
+                    response = await fetch(`${API_URL}/execute`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ instruction: command })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        responseEl.textContent = `Success!\n${JSON.stringify(data.result, null, 2)}`;
+                    } else {
+                        responseEl.textContent = `Error: ${data.error}`;
+                    }
+                }
+            } catch (error) {
+                responseEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Initialize speech recognition
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert('Speech recognition not supported in this browser');
+                return;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                console.log('Speech recognition started');
+                document.getElementById('voiceBtn').classList.add('listening');
+                document.getElementById('transcript').textContent = 'Listening...';
+            };
+
+            recognition.onend = () => {
+                console.log('Speech recognition ended');
+                document.getElementById('voiceBtn').classList.remove('listening');
+                isListening = false;
+            };
+
+            recognition.onresult = (event) => {
+                const last = event.results.length - 1;
+                const transcript = event.results[last][0].transcript;
+                const isFinal = event.results[last].isFinal;
+
+                document.getElementById('transcript').textContent = transcript;
+
+                if (isFinal) {
+                    sendCommand(transcript);
+                }
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                document.getElementById('transcript').textContent = `Error: ${event.error}`;
+                document.getElementById('voiceBtn').classList.remove('listening');
+                isListening = false;
+            };
+        }
+
+        // Toggle voice recognition
+        function toggleVoice() {
+            if (!recognition) {
+                initSpeechRecognition();
+            }
+
+            if (isListening) {
+                recognition.stop();
+                isListening = false;
+            } else {
+                recognition.start();
+                isListening = true;
+            }
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            checkServerStatus();
+            setInterval(checkServerStatus, 5000);
+            initSpeechRecognition();
+        };
+    </script>
+</body>
+</html>
