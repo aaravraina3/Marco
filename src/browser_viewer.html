@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Viewer - Polling Based</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .controls {
+            background: #1a1a1a;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        .url-bar {
+            flex: 1;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .url-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 0.5rem 1.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        
+        .btn.secondary {
+            background: #444;
+        }
+        
+        .btn.secondary:hover {
+            background: #555;
+        }
+        
+        .status {
+            padding: 0.25rem 0.75rem;
+            background: #2a2a2a;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        
+        .status.active {
+            background: #10b981;
+        }
+        
+        .status.paused {
+            background: #ef4444;
+        }
+        
+        .browser-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: #0f0f0f;
+            position: relative;
+        }
+        
+        .browser-viewport {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        #browserCanvas {
+            display: block;
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0,0,0,0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            max-width: 300px;
+        }
+        
+        .stats {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(0,0,0,0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .command-input {
+            width: 300px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🖥️ Browser Viewer</h1>
+        <div class="status" id="status">Paused</div>
+    </div>
+    
+    <div class="controls">
+        <button id="startBtn" class="btn">Start Streaming</button>
+        <button id="stopBtn" class="btn secondary">Stop</button>
+        <select id="fpsSelect" class="url-input" style="width: auto;">
+            <option value="100">10 FPS</option>
+            <option value="50">20 FPS</option>
+            <option value="33" selected>30 FPS</option>
+            <option value="16">60 FPS</option>
+        </select>
+        <div class="url-bar">
+            <input 
+                type="text" 
+                id="urlInput" 
+                class="url-input" 
+                placeholder="Enter URL..." 
+                value="https://www.google.com"
+            />
+            <button id="goBtn" class="btn">Navigate</button>
+        </div>
+        <input 
+            type="text" 
+            id="commandInput" 
+            class="command-input" 
+            placeholder="Enter command for agent..."
+        />
+        <button id="executeBtn" class="btn">Execute</button>
+    </div>
+    
+    <div class="browser-container">
+        <div class="browser-viewport">
+            <canvas id="browserCanvas" width="1280" height="720"></canvas>
+            <div class="loading" id="loading">
+                <p>Click "Start Streaming" to begin</p>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>🎮 Controls</h3>
+            <p>• Click on the image to interact</p>
+            <p>• Use the URL bar to navigate</p>
+            <p>• Execute agent commands</p>
+            <p>• Adjust FPS for performance</p>
+        </div>
+        
+        <div class="stats">
+            <h3>📊 Statistics</h3>
+            <p>FPS: <span id="fps">0</span></p>
+            <p>Frames: <span id="frameCount">0</span></p>
+            <p>URL: <span id="currentUrl" style="font-size: 0.75rem;">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8001';
+        const canvas = document.getElementById('browserCanvas');
+        const ctx = canvas.getContext('2d');
+        const statusEl = document.getElementById('status');
+        const loadingEl = document.getElementById('loading');
+        const fpsEl = document.getElementById('fps');
+        const frameCountEl = document.getElementById('frameCount');
+        const currentUrlEl = document.getElementById('currentUrl');
+        
+        let isStreaming = false;
+        let frameCount = 0;
+        let lastFrameTime = Date.now();
+        let fpsFrames = [];
+        let streamInterval = null;
+        let refreshRate = 33; // milliseconds (30 FPS default)
+        
+        async function fetchScreenshot() {
+            try {
+                const response = await fetch(`${API_URL}/screenshot`);
+                if (!response.ok) throw new Error('Failed to fetch screenshot');
+                
+                const data = await response.json();
+                
+                // Draw the screenshot
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // Update stats
+                    frameCount++;
+                    frameCountEl.textContent = frameCount;
+                    
+                    // Calculate FPS
+                    const now = Date.now();
+                    fpsFrames.push(now);
+                    fpsFrames = fpsFrames.filter(t => now - t < 1000);
+                    fpsEl.textContent = fpsFrames.length;
+                    
+                    // Update URL
+                    currentUrlEl.textContent = data.url || '-';
+                };
+                img.src = `data:image/png;base64,${data.screenshot_base64}`;
+                
+            } catch (error) {
+                console.error('Error fetching screenshot:', error);
+            }
+        }
+        
+        function startStreaming() {
+            if (isStreaming) return;
+            
+            isStreaming = true;
+            statusEl.textContent = 'Streaming';
+            statusEl.classList.add('active');
+            statusEl.classList.remove('paused');
+            loadingEl.style.display = 'none';
+            
+            // Start polling for screenshots
+            streamInterval = setInterval(fetchScreenshot, refreshRate);
+            fetchScreenshot(); // Fetch immediately
+        }
+        
+        function stopStreaming() {
+            if (!isStreaming) return;
+            
+            isStreaming = false;
+            statusEl.textContent = 'Paused';
+            statusEl.classList.remove('active');
+            statusEl.classList.add('paused');
+            
+            if (streamInterval) {
+                clearInterval(streamInterval);
+                streamInterval = null;
+            }
+        }
+        
+        async function navigate(url) {
+            try {
+                const response = await fetch(`${API_URL}/navigate?url=${encodeURIComponent(url)}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                console.log('Navigation result:', data);
+            } catch (error) {
+                console.error('Navigation error:', error);
+            }
+        }
+        
+        async function execute(instruction) {
+            try {
+                const response = await fetch(`${API_URL}/execute`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instruction })
+                });
+                const data = await response.json();
+                console.log('Execution result:', data);
+                alert(data.success ? 'Command executed successfully!' : `Error: ${data.error}`);
+            } catch (error) {
+                console.error('Execution error:', error);
+                alert('Failed to execute command');
+            }
+        }
+        
+        async function clickAt(x, y) {
+            try {
+                const response = await fetch(`${API_URL}/click?x=${x}&y=${y}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                console.log('Click result:', data);
+            } catch (error) {
+                console.error('Click error:', error);
+            }
+        }
+        
+        // Event handlers
+        document.getElementById('startBtn').onclick = startStreaming;
+        document.getElementById('stopBtn').onclick = stopStreaming;
+        
+        document.getElementById('fpsSelect').onchange = (e) => {
+            refreshRate = parseInt(e.target.value);
+            if (isStreaming) {
+                stopStreaming();
+                startStreaming();
+            }
+        };
+        
+        document.getElementById('goBtn').onclick = () => {
+            const url = document.getElementById('urlInput').value;
+            if (url) navigate(url);
+        };
+        
+        document.getElementById('executeBtn').onclick = () => {
+            const command = document.getElementById('commandInput').value;
+            if (command) execute(command);
+        };
+        
+        document.getElementById('urlInput').onkeypress = (e) => {
+            if (e.key === 'Enter') {
+                const url = e.target.value;
+                if (url) navigate(url);
+            }
+        };
+        
+        document.getElementById('commandInput').onkeypress = (e) => {
+            if (e.key === 'Enter') {
+                const command = e.target.value;
+                if (command) execute(command);
+            }
+        };
+        
+        // Canvas click handler
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.round((e.clientX - rect.left) * (1280 / rect.width));
+            const y = Math.round((e.clientY - rect.top) * (720 / rect.height));
+            clickAt(x, y);
+            console.log(`Clicked at (${x}, ${y})`);
+        });
+        
+        // Check server status on load
+        fetch(`${API_URL}/`).then(r => r.json()).then(data => {
+            console.log('Server status:', data);
+        }).catch(error => {
+            alert('Server not running! Start it with: python fastapi_stagehand_server_simple.py');
+        });
+    </script>
+</body>
+</html>
