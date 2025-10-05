@@ -21,11 +21,26 @@ export default function Home() {
   const [serverStatus, setServerStatus] = useState<'online' | 'offline' | 'checking'>('checking');
   const [isTTSEnabled, setIsTTSEnabled] = useState(true);
   const [isTTSSpeaking, setIsTTSSpeaking] = useState(false);
+  const [threadId, setThreadId] = useState<string | null>(null);
+  const [messageCount, setMessageCount] = useState(0);
   const ttsRef = useRef<any>(null);
+  const isProcessingRef = useRef(false);
 
-  // Initialize TTS on client side
+  // Keep ref in sync with state for callbacks
+  useEffect(() => {
+    isProcessingRef.current = isProcessing;
+  }, [isProcessing]);
+
+  // Initialize TTS on client side and auto-start voice control
   useEffect(() => {
     ttsRef.current = getTextToSpeech();
+    
+    // Auto-start voice control after a short delay for initialization
+    const timer = setTimeout(() => {
+      setIsListening(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
   }, []);
   
   // Check server health on mount
@@ -75,6 +90,12 @@ export default function Home() {
             ttsRef.current.speak(cleanText, () => {
               // Called when TTS finishes
               setIsTTSSpeaking(false);
+              // Auto-restart listening after TTS completes
+              setTimeout(() => {
+                if (!isProcessingRef.current) {
+                  setIsListening(true);
+                }
+              }, 500);
             });
           }
         }, 100);
@@ -109,10 +130,16 @@ export default function Home() {
         setIsStreaming(true);
       }
       
-      // Process through LangChain agent
-      const response = await apiClient.processWithAgent(command);
+      // Process through LangChain agent with thread memory
+      const response = await apiClient.processWithAgent(command, threadId || undefined);
       
       if (response.success) {
+        // Update thread ID and message count from response
+        if (response.thread_id && !threadId) {
+          setThreadId(response.thread_id);
+        }
+        setMessageCount(response.message_count);
+        
         // Add the agent's response
         addMessage('assistant', response.response, { 
           toolsCalled: response.tools_used && response.tools_used.length > 0 
@@ -159,6 +186,14 @@ export default function Home() {
       }
     } finally {
       setIsProcessing(false);
+      
+      // Auto-restart listening if TTS is not enabled or no TTS will play
+      // (If TTS is enabled, the TTS callback will handle restarting)
+      if (!isTTSEnabled) {
+        setTimeout(() => {
+          setIsListening(true);
+        }, 500);
+      }
     }
   };
 
@@ -171,8 +206,26 @@ export default function Home() {
     await processCommand(command);
   };
 
-  const handleClearMessages = () => {
+  const handleClearMessages = async () => {
+    // Clear local messages
     setMessages([]);
+    
+    // Clear server-side conversation memory if thread exists
+    if (threadId) {
+      try {
+        await apiClient.clearThread(threadId);
+        // Generate new thread ID for next conversation
+        setThreadId(null);
+        setMessageCount(0);
+        // Add a system message to indicate fresh start
+        addMessage('system', 'Conversation history cleared. Starting fresh!');
+      } catch (error) {
+        console.error('Failed to clear thread:', error);
+      }
+    } else {
+      // Just reset the state if no thread exists
+      setMessageCount(0);
+    }
   };
 
   return (
@@ -181,10 +234,15 @@ export default function Home() {
       <header className="border-b bg-card px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold">Healthcare Intake Assistant</h1>
+            <h1 className="text-2xl font-bold">Marco</h1>
             <Badge variant={serverStatus === 'online' ? 'default' : serverStatus === 'checking' ? 'secondary' : 'destructive'}>
               Server: {serverStatus}
             </Badge>
+            {threadId && (
+              <Badge variant="outline" className="text-xs">
+                Memory: {messageCount} messages
+              </Badge>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <Button
