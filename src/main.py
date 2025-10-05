@@ -8,13 +8,19 @@ from typing import Optional
 from .config import load_config
 from .landmarks import HandsTracker, palm_center, is_open_hand, is_index_middle_extended, fingers_extended
 from .controller_mock import MockController
-from .gestures import GestureProcessor 
+from .gestures import GestureProcessor
+
+try:
+    from .controller_browser import BrowserController
+    BROWSER_CONTROLLER_AVAILABLE = True
+except ImportError:
+    BROWSER_CONTROLLER_AVAILABLE = False 
 
 
 class GestureRecognitionApp:
     """Main application class for hand gesture recognition."""
     
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(self, config_path: Optional[str] = None, use_browser: bool = False):
         """Initialize the application with configuration."""
         self.config = load_config(config_path)
         self.tracker = HandsTracker(
@@ -22,7 +28,15 @@ class GestureRecognitionApp:
             min_detection_conf=self.config.mediapipe.min_detection_confidence,
             min_tracking_conf=self.config.mediapipe.min_tracking_confidence
         )
-        self.controller = MockController()
+        
+        # Choose controller type
+        if use_browser and BROWSER_CONTROLLER_AVAILABLE:
+            self.controller = BrowserController()
+            print("🌐 Using browser controller - make sure browser server is running!")
+        else:
+            self.controller = MockController()
+            if use_browser and not BROWSER_CONTROLLER_AVAILABLE:
+                print("⚠️  Browser controller not available, using mock controller")
         
         #Initialize gesture processor
         self.gesture_processor = GestureProcessor(self.config)
@@ -37,7 +51,7 @@ class GestureRecognitionApp:
         if not self.cap.isOpened():
             raise RuntimeError(f"Failed to open camera {self.config.camera.index}")
     
-    def run(self):
+    async def run(self):
         """Run the main application loop."""
         print(f"Starting {self.config.display.window_name}")
         print("🎯 Gesture Recognition:")
@@ -66,10 +80,10 @@ class GestureRecognitionApp:
             
             # Execute commands
             if scroll_cmd:
-                asyncio.run(self.controller.scroll(scroll_cmd.dy_px))
+                await self.controller.scroll(scroll_cmd.dy_px)
             
             if swipe_cmd:
-                asyncio.run(self.controller.switch_tab(swipe_cmd.direction))
+                await self.controller.switch_tab(swipe_cmd.direction)
             
             # Initialize status
             status_text = "No hand detected"
@@ -142,16 +156,29 @@ class GestureRecognitionApp:
             self.cap.release()
 
 
-def main():
+async def main():
     """Entry point for the application."""
+    import sys
+    
+    # Check for --browser flag
+    use_browser = "--browser" in sys.argv
+    
+    if use_browser:
+        print("🌐 Browser mode enabled - make sure to start browser server first:")
+        print("   python browser_server.py")
+        print()
+    
     try:
-        app = GestureRecognitionApp()
-        app.run()
+        app = GestureRecognitionApp(use_browser=use_browser)
+        await app.run()
     except KeyboardInterrupt:
         print("\nApplication interrupted by user")
+        # Clean up browser controller if used
+        if hasattr(app, 'controller') and hasattr(app.controller, 'close'):
+            await app.controller.close()
     except Exception as e:
         print(f"Error: {e}")
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

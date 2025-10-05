@@ -25,9 +25,9 @@ class ScrollGesture:
     Converts index+middle finger vertical motion into scroll commands.
     
     Features:
-    - Triggers when index and middle fingers are extended
-    - Dead-zone filtering for small movements
-    - Gain mapping with clamping
+    - One-shot swipe detection (not continuous tracking)
+    - Directional hysteresis to suppress reset motion
+    - Enhanced sensitivity for downward scrolls
     - Hand-lost detection with timeout
     """
     
@@ -36,11 +36,19 @@ class ScrollGesture:
         self.cfg = cfg
         self.last_hand_seen_time: Optional[float] = None
         self.is_scrolling = False
+        
+        # One-shot gesture detection state
+        self.last_gesture_direction: Optional[str] = None  # "up" or "down"
+        self.gesture_cooldown_until: float = 0.0
+        self.min_gesture_velocity = 80.0  # px/s - minimum velocity for deliberate gesture
+        self.gesture_cooldown_ms = 200  # ms between gestures
+        self.reset_suppression_factor = 0.3  # suppress opposite direction by this factor
     
     def update(self, landmarks: Optional[List[Tuple[float, float]]], palm: PalmState, 
                t_now: float, frame_wh: Tuple[int, int]) -> Optional[ScrollCommand]:
         """
         Process palm state and return scroll command if conditions are met.
+        Uses one-shot gesture detection to avoid jittery reset motion.
         
         Args:
             landmarks: Hand landmarks (None if no hand detected)
@@ -63,27 +71,57 @@ class ScrollGesture:
                 time_since_hand_lost = (t_now - self.last_hand_seen_time) * 1000  # ms
                 if time_since_hand_lost > self.cfg.gestures.scroll.stop_on_hand_lost_ms:
                     self.is_scrolling = False
+                    self.last_gesture_direction = None  # Reset gesture state
                     return None
         
         # Gate: Must have index+middle armed and be in scrolling state
         if not palm.armed_scroll or not self.is_scrolling:
+            self.last_gesture_direction = None  # Reset gesture state
             return None
         
-        # Dead-zone: Filter out small vertical movements
-        abs_vy = abs(palm.vy_px_s)
-        if abs_vy < self.cfg.gestures.scroll.vertical_deadzone_px_s:
+        # Check cooldown
+        if t_now < self.gesture_cooldown_until:
             return None
         
-        # Mapping: Apply gain and clamp to maximum step
-        raw_dy = self.cfg.gestures.scroll.gain * palm.vy_px_s
-        max_step = self.cfg.gestures.scroll.max_step_px_per_frame
+        # Determine gesture direction and velocity
+        vy = palm.vy_px_s
+        abs_vy = abs(vy)
+        
+        # Must exceed minimum velocity for deliberate gesture
+        if abs_vy < self.min_gesture_velocity:
+            return None
+        
+        current_direction = "down" if vy > 0 else "up"
+        
+        # Apply reset suppression: if this is opposite to last gesture, require higher velocity
+        if (self.last_gesture_direction is not None and 
+            self.last_gesture_direction != current_direction):
+            
+            # Suppress reset motion by requiring higher velocity in opposite direction
+            suppression_threshold = self.min_gesture_velocity / self.reset_suppression_factor
+            if abs_vy < suppression_threshold:
+                return None
+        
+        # Enhanced sensitivity for downward scrolls
+        if current_direction == "down":
+            # Increase gain for downward motion to make it more sensitive
+            enhanced_gain = self.cfg.gestures.scroll.gain * 2.5  # 2.5x more sensitive
+            raw_dy = enhanced_gain * vy
+        else:
+            # Normal gain for upward motion
+            raw_dy = self.cfg.gestures.scroll.gain * vy
         
         # Clamp to maximum step size
+        max_step = self.cfg.gestures.scroll.max_step_px_per_frame
         dy_px = int(max(-max_step, min(max_step, raw_dy)))
         
         # Don't send zero commands
         if dy_px == 0:
             return None
+        
+        # Set cooldown and remember direction
+        self.gesture_cooldown_until = t_now + (self.gesture_cooldown_ms / 1000.0)
+        self.last_gesture_direction = current_direction
         
         return ScrollCommand(dy_px=dy_px)
 

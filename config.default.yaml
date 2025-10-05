@@ -15,11 +15,11 @@ mediapipe:
 
 # Gesture recognition settings
 gestures:
-  # Open palm scroll settings
+  # Index+Middle finger scroll settings (one-shot detection)
   scroll:
     vertical_deadzone_px_s: 30.0    # minimum vertical velocity to trigger scroll
     gain: 0.05                      # velocity to pixel conversion factor
-    max_step_px_per_frame: 20       # maximum scroll pixels per frame
+    max_step_px_per_frame: 50       # maximum scroll pixels per frame (increased for better sensitivity)
     stop_on_hand_lost_ms: 500       # stop scrolling after hand lost (ms)
     
   # Index-only swipe settings  
