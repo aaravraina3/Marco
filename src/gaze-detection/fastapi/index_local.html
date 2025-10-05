@@ -78,10 +78,20 @@
             background: rgba(0, 0, 0, 0.95);
         }
 
+        .gaze-shape-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
         .gaze-dot {
             position: fixed;
-            width: 25px;
-            height: 25px;
+            width: 60px;
+            height: 60px;
             background: #00ff00;
             border: 3px solid #ffffff;
             border-radius: 50%;
@@ -91,6 +101,7 @@
             display: none;
             z-index: 10000;
             animation: gazePulse 1.5s ease-in-out infinite;
+            transition: border-radius 0.3s ease;
         }
 
         @keyframes gazePulse {
@@ -226,14 +237,14 @@
 <body>
     <div class="container">
         <div class="app-container" id="appContainer">
-            <h1>Local Gaze Tracker - JavaScript Port</h1>
+            <h1>Local Gaze Tracker - No Calibration Required!</h1>
             
             <div id="statusMessage"></div>
             
             <div id="infoPanel" class="info-panel">
                 <div class="info-row">
                     <span class="info-label">Status:</span>
-                    <span class="info-value" id="calibrationStatus">Not Calibrated</span>
+                    <span class="info-value" id="trackingStatus">Ready</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">FPS:</span>
@@ -252,35 +263,22 @@
                     <span class="info-value" id="gazeY">-</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Calibration Points:</span>
-                    <span class="info-value" id="calibrationCount">0</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Current Point:</span>
-                    <span class="info-value" id="currentPoint">-</span>
+                    <span class="info-label">Tracking:</span>
+                    <span class="info-value" id="trackingActive">Stopped</span>
                 </div>
             </div>
 
-            <div id="calibrationInstructions" class="calibration-instructions">
-                <strong>Calibration Instructions:</strong><br>
-                Look at each red dot and hold your gaze steady. Keep your head still and centered.
-                <div id="calibrationProgress"></div>
-            </div>
 
             <div class="video-container">
                 <video id="video" autoplay playsinline></video>
                 <canvas id="canvas"></canvas>
                 <canvas id="calibrationOverlay" class="calibration-overlay"></canvas>
+                <canvas id="gazeShapeCanvas" class="gaze-shape-overlay"></canvas>
                 <div id="gazeDot" class="gaze-dot"></div>
             </div>
 
             <div class="controls">
-                <button class="btn" id="startCalibrationBtn" onclick="startCalibration()">Start Calibration</button>
-                <button class="btn btn-danger" id="stopCalibrationBtn" onclick="stopCalibration()" style="display: none;">Stop Calibration</button>
-                <button class="btn btn-secondary" id="startTrackingBtn" onclick="startTracking()" disabled>Start Tracking</button>
-                <button class="btn btn-secondary" onclick="clearCalibration()">Clear Calibration</button>
-                <button class="btn btn-secondary" onclick="exportCalibration()">Export Calibration</button>
-                <button class="btn btn-secondary" onclick="importCalibration()">Import Calibration</button>
+                <button class="btn" id="startTrackingBtn" onclick="startTracking()">Start Tracking</button>
             </div>
         </div>
     </div>
@@ -295,6 +293,10 @@
         let video = null;
         let canvas = null;
         let ctx = null;
+        let gazeShapeCanvas = null;
+        let gazeShapeCtx = null;
+        let currentGazePosition = { x: 0, y: 0 };
+        let shapeAnimationId = null;
         let calibrationCanvas = null;
         let calibrationCtx = null;
 
@@ -308,6 +310,12 @@
                 ctx = canvas.getContext('2d');
                 calibrationCanvas = document.getElementById('calibrationOverlay');
                 calibrationCtx = calibrationCanvas.getContext('2d');
+                
+                // Setup gaze shape canvas
+                gazeShapeCanvas = document.getElementById('gazeShapeCanvas');
+                gazeShapeCtx = gazeShapeCanvas.getContext('2d');
+                gazeShapeCanvas.width = window.innerWidth;
+                gazeShapeCanvas.height = window.innerHeight;
                 
                 // Initialize gaze tracker
                 gazeTracker = new LocalGazeTracker();
@@ -355,140 +363,63 @@
             }
         }
 
-        function startCalibration() {
-            if (!gazeTracker) {
-                showStatusMessage('Gaze tracker not initialized', 'error');
-                return;
-            }
-            
-            isCalibrating = true;
-            document.getElementById('calibrationInstructions').style.display = 'block';
-            calibrationCanvas.style.display = 'block';
-            document.getElementById('startCalibrationBtn').style.display = 'none';
-            document.getElementById('stopCalibrationBtn').style.display = 'block';
-            
-            gazeTracker.startCalibration((point, progress) => {
-                drawCalibrationPoint(point, progress);
-            }, (status, message) => {
-                if (status === 'complete') {
-                    isCalibrating = false;
-                    calibrationCanvas.style.display = 'none';
-                    document.getElementById('calibrationInstructions').style.display = 'none';
-                    document.getElementById('calibrationStatus').textContent = 'Calibrated';
-                    document.getElementById('startTrackingBtn').disabled = false;
-                    document.getElementById('startCalibrationBtn').style.display = 'block';
-                    document.getElementById('stopCalibrationBtn').style.display = 'none';
-                    showStatusMessage(message, 'success');
-            } else if (status === 'error') {
-                isCalibrating = false;
-                calibrationCanvas.style.display = 'none';
-                document.getElementById('calibrationInstructions').style.display = 'none';
-                document.getElementById('startCalibrationBtn').style.display = 'block';
-                document.getElementById('stopCalibrationBtn').style.display = 'none';
-                showStatusMessage('Calibration error: ' + message, 'error');
-            } else if (status === 'no_face') {
-                showStatusMessage(message, 'info');
-            } else {
-                updateCalibrationProgress(message);
-            }
-            });
-        }
-
-        function stopCalibration() {
-            if (gazeTracker) {
-                gazeTracker.stopCalibration();
-            }
-            isCalibrating = false;
-            calibrationCanvas.style.display = 'none';
-            document.getElementById('calibrationInstructions').style.display = 'none';
-            document.getElementById('startCalibrationBtn').style.display = 'block';
-            document.getElementById('stopCalibrationBtn').style.display = 'none';
-            showStatusMessage('Calibration stopped', 'info');
-        }
 
         function startTracking() {
-            if (!gazeTracker || !gazeTracker.isCalibrated) {
-                showStatusMessage('Please calibrate first', 'error');
+            if (!gazeTracker) {
+                showStatusMessage('Gaze tracker not initialized', 'error');
                 return;
             }
             
             isTracking = !isTracking;
             const btn = document.getElementById('startTrackingBtn');
             const gazeDot = document.getElementById('gazeDot');
+            const trackingStatus = document.getElementById('trackingStatus');
+            const trackingActive = document.getElementById('trackingActive');
             
             if (isTracking) {
                 btn.textContent = 'Stop Tracking';
                 btn.classList.remove('btn-secondary');
                 btn.classList.add('btn-danger');
-                gazeDot.style.display = 'block';
+                gazeDot.style.display = 'none'; // Hide the static dot
+                trackingStatus.textContent = 'Tracking Active';
+                trackingActive.textContent = 'Active';
                 gazeTracker.startTracking((gazeData) => {
                     updateGazeDisplay(gazeData);
                 });
+                // Start the dynamic shape animation
+                animateShape();
+                showStatusMessage('Dynamic gaze tracking started!', 'success');
             } else {
                 btn.textContent = 'Start Tracking';
                 btn.classList.add('btn-secondary');
                 btn.classList.remove('btn-danger');
                 gazeDot.style.display = 'none';
+                trackingStatus.textContent = 'Ready';
+                trackingActive.textContent = 'Stopped';
                 gazeTracker.stopTracking();
+                // Stop the shape animation
+                if (shapeAnimationId) {
+                    clearTimeout(shapeAnimationId);
+                    shapeAnimationId = null;
+                }
+                // Clear the shape canvas
+                gazeShapeCtx.clearRect(0, 0, gazeShapeCanvas.width, gazeShapeCanvas.height);
+                showStatusMessage('Gaze tracking stopped', 'info');
             }
         }
 
-        function drawCalibrationPoint(point, progress = 0) {
-            calibrationCtx.clearRect(0, 0, calibrationCanvas.width, calibrationCanvas.height);
-            
-            // Scale point to screen coordinates
-            const scaleX = window.screen.width / 640;
-            const scaleY = window.screen.height / 480;
-            const x = point[0] * scaleX;
-            const y = point[1] * scaleY;
-            
-            // Draw red dot
-            calibrationCtx.fillStyle = '#ff0000';
-            calibrationCtx.beginPath();
-            calibrationCtx.arc(x, y, 20, 0, Math.PI * 2);
-            calibrationCtx.fill();
-            
-            // Draw white border
-            calibrationCtx.strokeStyle = '#ffffff';
-            calibrationCtx.lineWidth = 4;
-            calibrationCtx.beginPath();
-            calibrationCtx.arc(x, y, 20, 0, Math.PI * 2);
-            calibrationCtx.stroke();
-            
-            // Draw progress ring
-            if (progress > 0) {
-                calibrationCtx.strokeStyle = '#00ff00';
-                calibrationCtx.lineWidth = 6;
-                calibrationCtx.beginPath();
-                const startAngle = -Math.PI / 2;
-                const endAngle = startAngle + (2 * Math.PI * progress);
-                calibrationCtx.arc(x, y, 35, startAngle, endAngle);
-                calibrationCtx.stroke();
-            }
-        }
-
-        function updateCalibrationProgress(message) {
-            document.getElementById('calibrationProgress').innerHTML = `<br>${message}`;
-            
-            // Update debug info
-            if (gazeTracker) {
-                document.getElementById('calibrationCount').textContent = gazeTracker.calibrationFeatures.length;
-                document.getElementById('currentPoint').textContent = gazeTracker.currentCalibrationIndex + 1;
-            }
-        }
 
         function updateGazeDisplay(gazeData) {
             if (gazeData && gazeData.gazePoint) {
-                const dot = document.getElementById('gazeDot');
                 const scaleX = window.screen.width / 640;
                 const scaleY = window.screen.height / 480;
                 
                 const x = gazeData.gazePoint[0] * scaleX;
                 const y = gazeData.gazePoint[1] * scaleY;
                 
-                dot.style.left = x + 'px';
-                dot.style.top = y + 'px';
-                dot.style.display = 'block';
+                // Update current gaze position for shape generation
+                currentGazePosition.x = x;
+                currentGazePosition.y = y;
                 
                 // Update info panel
                 document.getElementById('gazeX').textContent = gazeData.gazePoint[0].toFixed(1);
@@ -500,52 +431,92 @@
             }
         }
 
-        function clearCalibration() {
-            if (gazeTracker) {
-                gazeTracker.clearCalibration();
-                document.getElementById('calibrationStatus').textContent = 'Not Calibrated';
-                document.getElementById('startTrackingBtn').disabled = true;
-                showStatusMessage('Calibration cleared', 'info');
+        // Dynamic curved shape generation
+        function generateRandomCurvedShape(centerX, centerY, baseRadius = 40) {
+            const points = [];
+            const numPoints = 8 + Math.floor(Math.random() * 8); // 8-15 points
+            
+            for (let i = 0; i < numPoints; i++) {
+                const angle = (i / numPoints) * Math.PI * 2;
+                const radiusVariation = 0.3 + Math.random() * 0.7; // 30% to 100% variation
+                const radius = baseRadius * radiusVariation;
+                
+                // Add random curvature variations
+                const curvatureX = (Math.random() - 0.5) * baseRadius * 0.4;
+                const curvatureY = (Math.random() - 0.5) * baseRadius * 0.4;
+                
+                const x = centerX + Math.cos(angle) * radius + curvatureX;
+                const y = centerY + Math.sin(angle) * radius + curvatureY;
+                
+                points.push({ x, y });
             }
+            
+            return points;
         }
 
-        function exportCalibration() {
-            if (gazeTracker && gazeTracker.isCalibrated) {
-                const calibration = gazeTracker.exportCalibration();
-                const blob = new Blob([JSON.stringify(calibration, null, 2)], {type: 'application/json'});
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'gaze_calibration.json';
-                a.click();
-                URL.revokeObjectURL(url);
-                showStatusMessage('Calibration exported', 'success');
-            } else {
-                showStatusMessage('No calibration to export', 'error');
+        function drawCurvedShape(points) {
+            if (points.length < 3) return;
+            
+            gazeShapeCtx.clearRect(0, 0, gazeShapeCanvas.width, gazeShapeCanvas.height);
+            
+            // Create smooth curved path
+            gazeShapeCtx.beginPath();
+            gazeShapeCtx.moveTo(points[0].x, points[0].y);
+            
+            for (let i = 1; i < points.length; i++) {
+                const current = points[i];
+                const next = points[(i + 1) % points.length];
+                const prev = points[(i - 1 + points.length) % points.length];
+                
+                // Calculate control points for smooth curves
+                const cp1x = current.x + (next.x - prev.x) * 0.1;
+                const cp1y = current.y + (next.y - prev.y) * 0.1;
+                
+                gazeShapeCtx.quadraticCurveTo(cp1x, cp1y, next.x, next.y);
             }
+            
+            // Close the path smoothly
+            const last = points[points.length - 1];
+            const first = points[0];
+            
+            const cp1x = last.x + (first.x - points[points.length - 2].x) * 0.1;
+            const cp1y = last.y + (first.y - points[points.length - 2].y) * 0.1;
+            
+            gazeShapeCtx.quadraticCurveTo(cp1x, cp1y, first.x, first.y);
+            gazeShapeCtx.closePath();
+            
+            // Fill with glowing green
+            gazeShapeCtx.fillStyle = 'rgba(0, 255, 0, 0.3)';
+            gazeShapeCtx.fill();
+            
+            // Add glowing border
+            gazeShapeCtx.strokeStyle = '#00ff00';
+            gazeShapeCtx.lineWidth = 3;
+            gazeShapeCtx.shadowColor = '#00ff00';
+            gazeShapeCtx.shadowBlur = 15;
+            gazeShapeCtx.stroke();
+            
+            // Reset shadow
+            gazeShapeCtx.shadowBlur = 0;
         }
 
-        function importCalibration() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = async (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    try {
-                        const text = await file.text();
-                        const calibration = JSON.parse(text);
-                        gazeTracker.importCalibration(calibration);
-                        document.getElementById('calibrationStatus').textContent = 'Calibrated';
-                        document.getElementById('startTrackingBtn').disabled = false;
-                        showStatusMessage('Calibration imported successfully', 'success');
-                    } catch (error) {
-                        showStatusMessage('Failed to import calibration: ' + error.message, 'error');
-                    }
-                }
-            };
-            input.click();
+        function animateShape() {
+            if (!isTracking) return;
+            
+            // Generate new random curved shape
+            const shapePoints = generateRandomCurvedShape(
+                currentGazePosition.x, 
+                currentGazePosition.y,
+                35 + Math.random() * 20 // Base radius 35-55px
+            );
+            
+            drawCurvedShape(shapePoints);
+            
+            // Schedule next animation frame with random delay
+            const nextDelay = 200 + Math.random() * 800; // 200-1000ms
+            shapeAnimationId = setTimeout(animateShape, nextDelay);
         }
+
 
         function showStatusMessage(message, type) {
             const el = document.getElementById('statusMessage');

@@ -246,7 +246,7 @@ class LocalGazeTracker {
         this.currentCalibrationIndex = 0;
         this.calibrationSamples = [];
         this.samplesForCurrentPoint = [];
-        this.SAMPLES_PER_POINT = 20;
+        this.SAMPLES_PER_POINT = 20; // Back to 20 samples
         this.isCalibrating = true;
 
         // Start with first point
@@ -274,8 +274,8 @@ class LocalGazeTracker {
         this.currentCalibrationIndex = index;
         this.samplesForCurrentPoint = [];
         
-        // Show countdown
-        let countdown = 3;
+        // Show countdown (much faster)
+        let countdown = 1; // Reduced from 3 to 1 second
         progressCallback(point, 0);
         statusCallback('countdown', `Look at the red dot... ${countdown}`);
         
@@ -326,7 +326,7 @@ class LocalGazeTracker {
                         // Move to next point
                         setTimeout(() => {
                             this.showCalibrationPoint(index + 1, progressCallback, statusCallback);
-                        }, 1500); // 1.5 second cooldown between dots
+                        }, 400); // 0.4 second cooldown between dots
                     }
                 } catch (error) {
                     console.error('Error adding calibration point:', error);
@@ -542,22 +542,11 @@ class LocalGazeTracker {
     }
 
     /**
-     * Predict gaze (main prediction function)
+     * Predict gaze (main prediction function) - No calibration required
      */
     predictGaze(faceLandmarks, frameWidth, frameHeight) {
-        if (!this.isCalibrated) {
-            return null;
-        }
-
         try {
-            // Extract features
-            const features = this.extractGazeFeatures(faceLandmarks, frameWidth, frameHeight);
-            
-            if (!features || features.length === 0) {
-                return null;
-            }
-
-            // Simplified gaze prediction using geometric calculations
+            // Direct geometric gaze prediction - no calibration needed
             const gazePoint = this.predictGazeGeometric(faceLandmarks, frameWidth, frameHeight);
             
             if (gazePoint) {
@@ -572,7 +561,7 @@ class LocalGazeTracker {
                 
                 return {
                     gazePoint: smoothedGaze,
-                    confidence: 0.8, // Simplified confidence
+                    confidence: 0.8,
                     rawGaze: gazePoint
                 };
             }
@@ -586,7 +575,7 @@ class LocalGazeTracker {
     }
 
     /**
-     * Geometric gaze prediction (simplified)
+     * Geometric gaze prediction (improved scaling)
      */
     predictGazeGeometric(faceLandmarks, frameWidth, frameHeight) {
         try {
@@ -609,12 +598,28 @@ class LocalGazeTracker {
                 (leftEyeCenter[1] + rightEyeCenter[1]) / 2
             ];
             
-            // Simple mapping from eye center to screen coordinates
-            // This is a simplified approach - the Python version uses much more sophisticated methods
-            const x = (eyeCenter[0] / frameWidth) * this.screenWidth;
-            const y = (eyeCenter[1] / frameHeight) * this.screenHeight;
+            // Get face center for reference
+            const faceCenterX = frameWidth / 2;
+            const faceCenterY = frameHeight / 2;
             
-            return [x, y];
+            // Calculate offset from face center
+            const offsetX = eyeCenter[0] - faceCenterX;
+            const offsetY = eyeCenter[1] - faceCenterY;
+            
+            // Apply scaling factors for better accuracy
+            const horizontalScale = 2.5; // Increased for better horizontal sensitivity
+            const verticalScale = 3.0;   // Increased for better vertical sensitivity
+            
+            // Calculate screen coordinates with improved scaling
+            // Flip horizontal (left eye movement = right screen movement)
+            const screenX = (this.screenWidth / 2) - (offsetX * horizontalScale);
+            const screenY = (this.screenHeight / 2) + (offsetY * verticalScale);
+            
+            // Clamp to screen bounds
+            const clampedX = Math.max(0, Math.min(this.screenWidth, screenX));
+            const clampedY = Math.max(0, Math.min(this.screenHeight, screenY));
+            
+            return [clampedX, clampedY];
             
         } catch (error) {
             console.error('Geometric prediction error:', error);
