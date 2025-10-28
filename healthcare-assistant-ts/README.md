@@ -1,96 +1,79 @@
-# Healthcare Intake Assistant
+# Healthcare Intake Assistant (Marco)
 
-An AI-powered voice-controlled healthcare intake form assistant that helps patients navigate web forms through natural language commands.
+Voice‑controlled web assistant that can navigate, search and read pages for you. Streams a live Chromium tab into the UI, accepts speech or typed commands, and replies with TTS.
 
-## Features
+## What’s inside
+- Frontend: Next.js 15 (React 19, Tailwind)
+- Backend: Node/Express (TypeScript)
+- Browser automation: Stagehand (Playwright)
+- AI: Anthropic Claude (agent), Google Gemini (vision), ElevenLabs (TTS)
 
-- 🎤 **Voice Recognition**: Speak commands naturally to control the browser
-- 🤖 **AI-Powered Navigation**: Uses Claude AI to understand and execute commands
-- 👁️ **Visual Analysis**: Analyzes web pages with Google Gemini
-- 🔊 **Text-to-Speech**: Provides audio feedback with ElevenLabs
-- 🌐 **Real-time Browser Control**: Live browser automation with Stagehand
-- 📱 **Responsive Design**: Works on desktop and mobile devices
-
-## Quick Start
-
-### Prerequisites
-- Node.js 18+
-- API keys for Anthropic, Google, and ElevenLabs
-
-### Installation
-```bash
-npm install
+## One‑time setup
+Create `healthcare-assistant-ts/.env` (server) and `healthcare-assistant-ts/.env.local` (frontend):
 ```
+# server
+ANTHROPIC_API_KEY=...
+ELEVEN_LABS_API_KEY=...
+GOOGLE_API_KEY=...
+NODE_ENV=development
 
-### Environment Setup
-Create a `.env.local` file:
-```bash
-ANTHROPIC_API_KEY=your_key_here
-ELEVEN_LABS_API_KEY=your_key_here
-GOOGLE_API_KEY=your_key_here
+# frontend
 NEXT_PUBLIC_API_URL=http://localhost:3003
 ```
 
-### Development
-```bash
-# Start frontend
-npm run dev
+Install deps:
+```
+cd healthcare-assistant-ts
+npm install
+npx playwright install chromium
+```
 
-# Start backend (in another terminal)
+## Run locally
+Terminal A (backend):
+```
 npm run dev:server
-
-# Start both
-npm run dev:all
 ```
-
-### Production Build
-```bash
-npm run build
-npm start
+Terminal B (frontend):
 ```
+npm run dev
+```
+Open http://localhost:3000
 
-## Deployment
+Quick flow:
+1) Click “Start Browser” (wait 3–5s) → 2) Click “Start Streaming” → 3) Click “Test Mic” then “Mic”, speak.
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+Best layout: split‑screen the Chromium window and the Assistant UI so stream refreshes don’t cover the UI.
 
-### Quick Vercel Deployment
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run: `vercel --prod`
-3. Configure environment variables in Vercel dashboard
+## Deploy (Vercel + Render)
 
-## Usage
+Backend (Render Web Service):
+- Root Directory: `healthcare-assistant-ts`
+- Runtime: Node 20
+- Build: `npm install && npx playwright install --with-deps chromium && npm run build`
+- Start: `npm run start:server`
+- Health Check: `/api/health`
+- Env: `ANTHROPIC_API_KEY`, `ELEVEN_LABS_API_KEY`, `GOOGLE_API_KEY`, `NODE_ENV=production`, `BROWSER_HEADLESS=true`
 
-1. **Voice Commands**: Click the microphone and speak commands like:
-   - "Search for medical forms"
-   - "Navigate to the patient portal"
-   - "Fill out the contact information"
-   - "What's on this page?"
+Frontend (Vercel):
+- Env: `NEXT_PUBLIC_API_URL=https://<your-render-url>`
+- Redeploy
 
-2. **Text Commands**: Type commands in the input field
+Recruiter flow (Vercel):
+1) Start Browser → launches headless Chromium on Render
+2) Start Streaming → live view appears
+3) Test Mic → Allow → pick device (optional) → Mic → speak
 
-3. **Browser Control**: Watch real-time browser automation in the center panel
+## Troubleshooting
+- Server badge “offline”: backend not reachable; set `NEXT_PUBLIC_API_URL` correctly and redeploy.
+- “Failed to initialize browser”: re‑click Start Browser; keep Chromium open.
+- “Screenshot failed: Internal Server Error”: start browser, wait 3–5s, then Start Streaming.
+- Mic “blocked/denied”: allow in URL bar; macOS Privacy → Microphone → enable Chrome.
+- Mic “No microphone found/NotFoundError”: click Test Mic once; leave device as “Default” or pick a listed input; then Mic.
 
-## Architecture
+## Example prompts
+- “Go to CNN and give me the latest news on tech.”
+- “Navigate to Google and search for urgent care near me.”
+- “What’s on this page?”
+- “Click the first result.”
 
-- **Frontend**: Next.js 15 with React 19, Tailwind CSS
-- **Backend**: Express.js with TypeScript
-- **AI**: Anthropic Claude, Google Gemini
-- **TTS**: ElevenLabs
-- **Automation**: Stagehand (Playwright-based)
-
-## API Endpoints
-
-- `GET /api/health` - Health check
-- `POST /api/browser/*` - Browser automation
-- `POST /api/agent/*` - AI agent processing
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-MIT License - see LICENSE file for details
+For a deeper guide, see [`HOW_IT_WORKS.md`](./HOW_IT_WORKS.md) and the in‑app page at `/instructions`.
