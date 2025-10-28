@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "dev:server": "tsx server/index.ts",
     "dev:all": "concurrently \"pnpm run dev\" \"pnpm run dev:server\"",
-    "build": "next build --turbopack && tsc",
+    "build": "next build --turbopack && tsc -p server/tsconfig.json --outDir dist",
     "start": "next start",
     "start:server": "node dist/server/index.js",
     "lint": "eslint"
