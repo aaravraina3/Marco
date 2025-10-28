@@ -1,0 +1,1394 @@
+INFO:__main__:🚀 Starting FastAPI server on port 8001
+INFO:__main__:🤖 Using Claude Computer Use model: claude-sonnet-4-20250514
+INFO:__main__:🔍 Using Gemini model: gemini-2.5-flash
+INFO:__main__:🌐 Browser viewer available at http://localhost:8001/viewer
+INFO:__main__:📷 Screenshot endpoint: http://localhost:8001/screenshot
+INFO:__main__:📚 API documentation available at http://localhost:8001/docs
+INFO:     Started server process [78840]
+INFO:     Waiting for application startup.
+INFO:__main__:🚀 Starting Healthcare Intake Assistant Server...
+INFO:__main__:🤖 Initializing Stagehand browser...
+2025-10-05 02:11:19 INFO - Launching new local browser context...
+2025-10-05 02:11:25 INFO - Local browser context launched successfully.
+INFO:__main__:✅ Stagehand initialized
+INFO:__main__:✅ Got Playwright page
+INFO:__main__:✅ Set viewport to 1280x720
+INFO:__main__:🤖 Creating Computer Use agent...
+2025-10-05 02:11:26 INFO agent - AnthropicCUAClient initialized for model: 
+claude-sonnet-4-20250514
+INFO:__main__:✅ Agent created successfully
+INFO:__main__:📍 Navigating to Google... (attempt 1/3)
+INFO:__main__:✅ Navigated to Google successfully
+INFO:__main__:🤖 Creating LangChain agent with Claude 4 Sonnet...
+INFO:__main__:✅ Agent initialized successfully!
+INFO:__main__:✅ All components initialized successfully!
+INFO:__main__:🌐 Browser is open and ready for commands
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58097 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58100 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58106 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58110 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58122 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58137 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58144 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58159 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58161 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58163 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58165 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58167 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58169 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58172 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58174 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58203 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58229 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58243 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58248 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58252 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58255 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58257 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58261 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58269 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58288 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58292 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58308 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58315 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58318 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58315 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58334 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58339 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58343 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58346 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58354 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58357 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58361 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58359 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58361 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58361 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58361 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58361 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58361 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58361 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58361 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58364 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58364 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58364 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58374 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58372 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58377 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58377 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58377 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58379 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58379 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58379 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58379 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58379 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58379 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58379 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58379 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58383 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58383 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58396 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58392 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58408 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58406 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58426 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58418 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58436 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58436 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58441 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58441 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58445 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58445 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58447 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58447 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58458 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58454 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58471 - "GET /status HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58474 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58477 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58474 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58484 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58484 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58490 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58490 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58499 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58499 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58502 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58502 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58506 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58506 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58510 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58508 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58513 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58513 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58515 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58515 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58518 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58518 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58526 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58523 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58528 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58528 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58530 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58530 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58536 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58536 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58536 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58538 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58538 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58538 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58538 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58538 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58538 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58538 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58538 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58541 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58541 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58550 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58547 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58553 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58553 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58558 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58556 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58563 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58560 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58563 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58571 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:58571 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58582 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58585 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58598 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58605 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58607 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58609 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58612 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58617 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58619 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58621 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58625 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58629 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58631 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58634 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58636 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58638 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58640 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58643 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58645 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58649 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58651 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58654 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58657 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58659 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58661 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58663 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58665 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58670 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58672 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58674 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58676 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58681 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58688 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58690 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58694 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58698 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58700 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58702 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58704 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58706 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58708 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58713 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58720 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58732 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58735 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58738 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58740 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58744 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58747 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58749 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58751 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58753 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58756 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58758 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58761 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58766 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58771 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58773 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58777 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58788 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58790 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58792 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58794 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58797 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58808 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58827 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58831 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58835 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58837 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58839 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58841 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58843 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58845 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58849 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58851 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58854 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58856 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58858 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58860 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58864 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58866 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58876 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58882 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58886 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58889 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58897 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58912 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58912 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58934 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58950 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58955 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59016 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59033 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59039 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59037 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59043 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59043 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59043 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59046 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59048 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59051 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59054 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59059 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59061 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59063 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59066 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59075 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59077 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59081 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59083 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59085 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59091 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59102 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59104 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59106 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59106 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59106 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59106 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59106 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59106 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59108 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59108 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59112 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59112 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59117 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59117 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59121 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59121 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59123 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59123 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59128 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59128 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59131 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59131 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59133 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59133 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59135 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59135 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59137 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59137 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59143 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59143 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59145 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59145 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59148 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59148 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59151 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59151 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59154 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59154 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59160 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59160 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59164 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59164 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59168 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59168 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59171 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59171 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59174 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59174 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59176 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59176 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59178 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59178 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59180 - "GET / HTTP/1.1" 200 OK
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error
+ERROR:__main__:❌ Error taking screenshot: Page.screenshot: Target page, context or browser has been closed
+INFO:     127.0.0.1:59180 - "GET /screenshot HTTP/1.1" 500 Internal Server Error

@@ -213,7 +213,15 @@ async def lifespan(app: FastAPI):
         stagehand_client = Stagehand(
             env="LOCAL",
             headless=False,
-            verbose=True
+            verbose=True,
+            browser_args=[
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--disable-web-security",
+                "--disable-features=VizDisplayCompositor",
+                "--remote-debugging-port=9222"
+            ]
         )
         
         await stagehand_client.init()
@@ -243,8 +251,31 @@ async def lifespan(app: FastAPI):
             logger.error(f"❌ Failed to create agent: {agent_error}")
             raise
         
-        # Navigate to default page
-        await playwright_page.goto("https://www.google.com")
+        # Navigate to default page with retry logic
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"📍 Navigating to Google... (attempt {attempt + 1}/{max_retries})")
+                await asyncio.sleep(2)  # Give browser more time to fully initialize
+                
+                # Check if page is still valid
+                if playwright_page.is_closed():
+                    logger.warning("Page was closed, recreating...")
+                    playwright_page = stagehand_client.page
+                    await playwright_page.set_viewport_size({"width": 1280, "height": 720})
+                
+                await playwright_page.goto("https://www.google.com", timeout=30000)
+                await playwright_page.wait_for_load_state("networkidle", timeout=10000)
+                logger.info("✅ Navigated to Google successfully")
+                break
+                
+            except Exception as nav_error:
+                logger.warning(f"⚠️ Navigation attempt {attempt + 1} failed: {nav_error}")
+                if attempt == max_retries - 1:
+                    logger.error("❌ All navigation attempts failed")
+                    logger.info("Continuing without initial navigation...")
+                else:
+                    await asyncio.sleep(3)  # Wait before retry
         
         # Create LangChain agent - EXACTLY AS IN voice_controlled_agent.py
         logger.info("🤖 Creating LangChain agent with Claude 4 Sonnet...")
@@ -289,7 +320,7 @@ app.add_middleware(
 )
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="../cdp-poc/public"), name="static")
+# app.mount("/static", StaticFiles(directory="../cdp-poc/public"), name="static")
 
 @app.get("/")
 async def root():
@@ -550,6 +581,16 @@ async def navigate_to_url(url: str):
         # Add protocol if missing
         if not url.startswith(('http://', 'https://')):
             url = f'https://{url}'
+        
+        # Prevent navigation to localhost to avoid recursive streaming
+        if 'localhost' in url or '127.0.0.1' in url:
+            logger.warning(f"⚠️ Blocked navigation to localhost: {url}")
+            return {
+                "success": False,
+                "error": "Cannot navigate to localhost (would cause recursive streaming)",
+                "url": playwright_page.url,
+                "title": await playwright_page.title()
+            }
             
         logger.info(f"🌐 Navigating to: {url}")
         await playwright_page.goto(url)

@@ -191,7 +191,7 @@ app.add_middleware(
 )
 
 # Mount static files for serving the CDP client
-app.mount("/cdp-client", StaticFiles(directory="../cdp-poc/public"), name="cdp-client")
+# app.mount("/cdp-client", StaticFiles(directory="../cdp-poc/public"), name="cdp-client")
 
 # ===== WEBSOCKET ENDPOINT =====
 @app.websocket("/ws")
