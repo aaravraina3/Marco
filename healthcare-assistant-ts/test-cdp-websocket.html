@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP WebSocket Test - Healthcare Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #ef4444;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .status.connected {
+            background: #10b981;
+        }
+        
+        .controls {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        input[type="text"] {
+            background: #0f172a;
+            color: white;
+            border: 2px solid #334155;
+            padding: 10px 16px;
+            border-radius: 6px;
+            width: 400px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        #canvas {
+            border: 3px solid #334155;
+            border-radius: 12px;
+            display: block;
+            margin: 20px 0;
+            cursor: crosshair;
+            background: #000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        
+        .info {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            flex: 1;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .log {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+        }
+        
+        .log-time {
+            color: #64748b;
+        }
+        
+        .log-success {
+            color: #10b981;
+        }
+        
+        .log-error {
+            color: #ef4444;
+        }
+        
+        .log-info {
+            color: #60a5fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 CDP WebSocket Test - Healthcare Assistant</h1>
+        <div class="status" id="status">● Disconnected</div>
+        
+        <div class="controls">
+            <button id="connectBtn" onclick="connect()">Connect to Browser</button>
+            <button id="disconnectBtn" onclick="disconnect()" disabled>Disconnect</button>
+        </div>
+        
+        <div class="controls">
+            <input type="text" id="urlInput" placeholder="Enter URL..." value="https://www.google.com">
+            <button id="goBtn" onclick="navigate()">Navigate</button>
+            <button onclick="testClick()">Test Click (Center)</button>
+            <button onclick="testAgent()">Test Agent Chat</button>
+        </div>
+        
+        <canvas id="canvas" width="1280" height="720"></canvas>
+        
+        <div class="info">
+            <h3>📊 Statistics</h3>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="frameCount">0</div>
+                    <div class="stat-label">Frames Received</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="fps">0</div>
+                    <div class="stat-label">FPS</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="latency">-</div>
+                    <div class="stat-label">Latency (ms)</div>
+                </div>
+            </div>
+            
+            <h3>📝 Console Log</h3>
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let ws = null;
+        let frameCount = 0;
+        let fpsFrames = [];
+        let lastFrameTime = 0;
+        
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-time">[${time}]</span> <span class="log-${type}">${message}</span>`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        function updateStatus(connected) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = connected ? '● Connected' : '● Disconnected';
+            statusEl.className = connected ? 'status connected' : 'status';
+            
+            document.getElementById('connectBtn').disabled = connected;
+            document.getElementById('disconnectBtn').disabled = !connected;
+            document.getElementById('goBtn').disabled = !connected;
+        }
+        
+        function connect() {
+            log('🔌 Connecting to ws://localhost:3003...', 'info');
+            
+            ws = new WebSocket('ws://localhost:3003');
+            
+            ws.onopen = () => {
+                log('✅ Connected to Healthcare Assistant server!', 'success');
+                updateStatus(true);
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                
+                if (data.type === 'frame') {
+                    // Draw frame
+                    const img = new Image();
+                    img.onload = () => {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // Update stats
+                        frameCount++;
+                        document.getElementById('frameCount').textContent = frameCount;
+                        
+                        // Calculate FPS
+                        const now = Date.now();
+                        fpsFrames.push(now);
+                        fpsFrames = fpsFrames.filter(t => now - t < 1000);
+                        document.getElementById('fps').textContent = fpsFrames.length;
+                        
+                        // Calculate latency
+                        if (data.timestamp) {
+                            const latency = now - data.timestamp;
+                            document.getElementById('latency').textContent = latency;
+                        }
+                    };
+                    img.src = `data:image/jpeg;base64,${data.data}`;
+                    
+                } else if (data.type === 'status') {
+                    log(`📊 Status: ${JSON.stringify(data)}`, 'info');
+                } else {
+                    log(`📨 ${data.type}: ${JSON.stringify(data)}`, 'info');
+                }
+            };
+            
+            ws.onclose = () => {
+                log('❌ Disconnected from server', 'error');
+                updateStatus(false);
+            };
+            
+            ws.onerror = (error) => {
+                log(`❌ WebSocket error: ${error}`, 'error');
+            };
+        }
+        
+        function disconnect() {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        }
+        
+        function send(msg) {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify(msg));
+                log(`➡️ Sent: ${msg.type}`, 'info');
+            } else {
+                log('❌ Not connected', 'error');
+            }
+        }
+        
+        function navigate() {
+            const url = document.getElementById('urlInput').value;
+            send({ type: 'goto', url });
+        }
+        
+        function testClick() {
+            send({ type: 'click', x: 640, y: 360 });
+            log('🖱️ Sent click to center', 'success');
+        }
+        
+        async function testAgent() {
+            try {
+                log('🤖 Testing agent chat...', 'info');
+                const response = await fetch('http://localhost:3003/api/agent/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'What do you see on the screen?' })
+                });
+                const data = await response.json();
+                log(`🤖 Agent: ${data.response}`, 'success');
+            } catch (error) {
+                log(`❌ Agent error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Canvas click handler
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (1280 / rect.width);
+            const y = (e.clientY - rect.top) * (720 / rect.height);
+            send({ type: 'click', x: Math.round(x), y: Math.round(y) });
+            log(`🖱️ Clicked at (${Math.round(x)}, ${Math.round(y)})`, 'success');
+        });
+        
+        // Auto-connect on load
+        log('🚀 Ready to connect!', 'info');
+    </script>
+</body>
+</html>
+

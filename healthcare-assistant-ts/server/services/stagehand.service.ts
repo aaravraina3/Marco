@@ -8,22 +8,42 @@ export class StagehandService {
   private cdpSession: playwright.CDPSession | null = null;
   private isInitialized = false;
 
+  private isPageAlive(): boolean {
+    try {
+      const page = (this.stagehand as any)?.page as playwright.Page | null | undefined;
+      // If page not present or already closed, not alive
+      return !!page && !(page as any).isClosed?.() && !!page.context();
+    } catch {
+      return false;
+    }
+  }
+
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      console.log('⚠️ Stagehand already initialized');
+    if (this.isInitialized && this.isPageAlive()) {
+      // If initialized and page alive, bring it to front and return
+      const page = this.stagehand!.page!;
+      try { await page.bringToFront(); } catch {}
+      if (page.url() === 'about:blank') {
+        await page.goto('https://www.google.com');
+      }
+      console.log('⚠️ Stagehand already initialized – brought window to front');
       return;
     }
+
+    // If we get here, clean up any stale browser/page and re-initialize
+    await this.cleanup();
 
     try {
       console.log('🤖 Initializing Stagehand browser...');
       
       // Initialize Stagehand with local browser
+      // Force headful (Chromium window visible). CAST to any to satisfy types.
       this.stagehand = new Stagehand({
         env: 'LOCAL',
-        headless: config.browserHeadless,
-        verbose: true,
-        enableCaching: false
-      });
+        verbose: 1,
+        enableCaching: false,
+        headless: false,
+      } as any);
 
       // Initialize the browser
       await this.stagehand.init();
@@ -58,12 +78,28 @@ export class StagehandService {
 
       // Navigate to a default page
       await page.goto('https://www.google.com');
+      // Ensure the window is brought to the front in headful mode
+      try {
+        await page.bringToFront();
+      } catch (e) {
+        console.log('bringToFront not available, continuing');
+      }
       console.log('✅ Navigated to Google');
 
       this.isInitialized = true;
       console.log('🌐 Stagehand service ready!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Failed to initialize Stagehand:', error);
+      // If target closed or similar, try one hard reset and retry once
+      const msg = String(error?.message || error);
+      if (/Target .* closed|Target page.*closed|browser has been closed/i.test(msg)) {
+        await this.cleanup();
+        try {
+          return await this.initialize();
+        } catch (e) {
+          throw e;
+        }
+      }
       throw error;
     }
   }
@@ -89,12 +125,20 @@ export class StagehandService {
       throw new Error('Stagehand not initialized');
     }
 
-    const screenshot = await this.stagehand.page.screenshot({
-      type: 'png',
-      fullPage: false
-    });
-    
-    return screenshot;
+    const page = this.stagehand.page;
+    try {
+      // Make sure page is visible and loaded
+      try { await page.bringToFront(); } catch {}
+      await page.waitForLoadState('domcontentloaded', { timeout: 5000 });
+      // Small delay to avoid font-loading race
+      await page.waitForTimeout(200);
+
+      return await page.screenshot({ type: 'png', fullPage: false, timeout: 5000 });
+    } catch (err) {
+      // Retry once with a longer timeout and fullPage
+      try { await page.waitForTimeout(300); } catch {}
+      return await page.screenshot({ type: 'png', fullPage: true, timeout: 10000 });
+    }
   }
 
   async navigateTo(url: string): Promise<void> {

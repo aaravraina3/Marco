@@ -40,6 +40,30 @@ app.get('/api/health', (req, res) => {
 // Initialize CDP WebSocket streaming
 cdpStreamManager.initialize(server);
 
+// Simple API docs route
+app.get('/api/docs', (req, res) => {
+  res.json({
+    routes: {
+      health: '/api/health',
+      browser: {
+        init: '/api/browser/init [POST]',
+        status: '/api/browser/status [GET]',
+        navigate: '/api/browser/navigate [POST] { url }',
+        screenshot: '/api/browser/screenshot [GET]',
+        analyze: '/api/browser/analyze [POST] { query, url? }',
+        execute: '/api/browser/execute [POST] { instruction, maxSteps? }',
+        click: '/api/browser/click [POST] ?x&y',
+        type: '/api/browser/type [POST] ?text',
+      },
+      agent: {
+        chat: '/api/agent/chat [POST] { message }',
+        clear: '/api/agent/clear [POST]',
+        history: '/api/agent/history [GET]'
+      }
+    }
+  });
+});
+
 // Initialize services on startup
 async function initializeServices() {
   try {

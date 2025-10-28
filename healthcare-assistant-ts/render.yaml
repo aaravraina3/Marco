@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: healthcare-assistant-backend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: |
+      npm ci
+      npx playwright install --with-deps chromium
+      npm run build
+    startCommand: npm run start:server
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: BROWSER_HEADLESS
+        value: "true"
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ELEVEN_LABS_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+

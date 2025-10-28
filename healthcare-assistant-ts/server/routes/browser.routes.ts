@@ -4,6 +4,17 @@ import { geminiService } from '../services/gemini.service';
 
 const router = Router();
 
+// Initialize the Stagehand browser (lazy init)
+router.post('/init', async (req, res) => {
+  try {
+    await stagehandService.initialize();
+    const pageInfo = await stagehandService.getCurrentPageInfo();
+    res.json({ success: true, ...pageInfo, timestamp: new Date().toISOString() });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Get current browser status and page info
 router.get('/status', async (req, res) => {
   try {
@@ -66,7 +77,7 @@ router.post('/analyze', async (req, res) => {
     
     res.json({
       success: true,
-      screenshot: screenshotBase64,
+      screenshot_base64: screenshotBase64,
       analysis,
       timestamp: new Date().toISOString()
     });
@@ -102,3 +113,57 @@ router.post('/execute', async (req, res) => {
 });
 
 export default router;
+
+// Additional endpoints used by the frontend streaming UI
+// Get a screenshot of the current page
+router.get('/screenshot', async (req, res) => {
+  try {
+    const screenshot = await stagehandService.takeScreenshot();
+    const screenshotBase64 = screenshot.toString('base64');
+    const pageInfo = await stagehandService.getCurrentPageInfo();
+    res.json({
+      success: true,
+      screenshot_base64: screenshotBase64,
+      url: pageInfo.url,
+      title: pageInfo.title,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Click at coordinates on the page
+router.post('/click', async (req, res) => {
+  try {
+    const x = Number(req.query.x ?? req.body?.x);
+    const y = Number(req.query.y ?? req.body?.y);
+    if (Number.isNaN(x) || Number.isNaN(y)) {
+      return res.status(400).json({ success: false, error: 'x and y are required numbers' });
+    }
+    const page = stagehandService.getPage();
+    if (!page) return res.status(503).json({ success: false, error: 'Browser not ready' });
+    await page.mouse.click(x, y);
+    const pageInfo = await stagehandService.getCurrentPageInfo();
+    res.json({ success: true, ...pageInfo, timestamp: new Date().toISOString() });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Type text into the active element
+router.post('/type', async (req, res) => {
+  try {
+    const text = String(req.query.text ?? req.body?.text ?? '');
+    if (!text) {
+      return res.status(400).json({ success: false, error: 'text is required' });
+    }
+    const page = stagehandService.getPage();
+    if (!page) return res.status(503).json({ success: false, error: 'Browser not ready' });
+    await page.keyboard.type(text);
+    const pageInfo = await stagehandService.getCurrentPageInfo();
+    res.json({ success: true, ...pageInfo, timestamp: new Date().toISOString() });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});

@@ -21,7 +21,7 @@ export default function Home() {
   const [serverStatus, setServerStatus] = useState<'online' | 'offline' | 'checking'>('checking');
   const [isTTSEnabled, setIsTTSEnabled] = useState(true);
   const [isTTSSpeaking, setIsTTSSpeaking] = useState(false);
-  const ttsRef = useRef<any>(null);
+  const ttsRef = useRef<{ isSpeaking: () => boolean; cancel: () => void; speak: (text: string, callback: () => void) => void } | null>(null);
 
   // Initialize TTS on client side
   useEffect(() => {
@@ -122,7 +122,7 @@ export default function Home() {
           error: true 
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // If agent endpoint fails, fallback to simpler logic
       console.error('Agent endpoint failed, falling back:', error);
       
@@ -152,8 +152,8 @@ export default function Home() {
             throw new Error(response.error || 'Failed');
           }
         }
-      } catch (fallbackError) {
-        addMessage('assistant', `Failed to process command: ${error?.message || error}`, { 
+      } catch (fallbackError: unknown) {
+        addMessage('assistant', `Failed to process command: ${error instanceof Error ? error.message : String(error)}`, { 
           error: true 
         });
       }
@@ -175,10 +175,28 @@ export default function Home() {
     setMessages([]);
   };
 
+  const handleInitializeBrowser = async () => {
+    setIsProcessing(true);
+    try {
+      // Initialize backend browser via API client
+      const res = await apiClient.initBrowser();
+      if (!res.success) {
+        throw new Error(res.error || 'Init failed');
+      }
+      addMessage('system', `Browser initialized${res.url ? ` at ${res.url}` : ''}. Click "Start Streaming" to see the browser and start interacting with it.`);
+    } catch (error) {
+      addMessage('assistant', `Failed to initialize browser: ${error instanceof Error ? error.message : String(error)}`, { 
+        error: true 
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
-    <main className="h-screen bg-background">
+    <main className="h-screen w-screen bg-background overflow-hidden">
       {/* Header */}
-      <header className="border-b bg-card px-6 py-4">
+      <header className="border-b bg-card px-6 py-4 w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <h1 className="text-2xl font-bold">Healthcare Intake Assistant</h1>
@@ -187,6 +205,14 @@ export default function Home() {
             </Badge>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={handleInitializeBrowser}
+              disabled={isProcessing || serverStatus !== 'online'}
+            >
+              🚀 Start Browser
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -207,29 +233,35 @@ export default function Home() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => window.open('http://localhost:8001/docs', '_blank')}
+              onClick={() => window.open('http://localhost:3003/api/health', '_blank')}
             >
               <Terminal className="w-4 h-4 mr-2" />
-              API Docs
+              API Health
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => window.open('/instructions', '_blank')}
+            >
+              Instructions
             </Button>
           </div>
         </div>
       </header>
 
       {/* Main Layout */}
-      <div className="flex h-[calc(100vh-73px)]">
+      <div className="flex h-[calc(100vh-73px)]" style={{ width: '100vw', boxSizing: 'border-box' }}>
         {/* Left Panel - Voice Control */}
-        <aside className="w-80 border-r bg-card p-4">
+        <aside className="shrink-0 border-r border-4 border-red-500 bg-card p-1" style={{ width: '25%', boxSizing: 'border-box' }}>
         <VoiceAnimation
           isListening={isListening}
           onListeningChange={setIsListening}
           onTranscript={handleTranscript}
-          isProcessing={isProcessing || isTTSSpeaking}  // Processing includes TTS speaking
+          isProcessing={isProcessing}
         />
         </aside>
 
         {/* Center - Browser Display */}
-        <div className="flex-1 p-4">
+        <div className="shrink-0 border-4 border-blue-500 p-1" style={{ width: '50%', boxSizing: 'border-box' }}>
           <BrowserDisplay
             isStreaming={isStreaming}
             onStreamingChange={setIsStreaming}
@@ -238,7 +270,7 @@ export default function Home() {
         </div>
 
         {/* Right Panel - Agent Responses */}
-        <aside className="w-96 border-l bg-card p-4">
+        <aside className="shrink-0 border-l border-4 border-green-500 bg-card p-1" style={{ width: '25%', boxSizing: 'border-box' }}>
           <div className="h-full flex flex-col gap-4">
             <div className="flex-1 min-h-0 overflow-hidden">
               <AgentResponses

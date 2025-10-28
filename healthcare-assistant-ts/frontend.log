@@ -1,0 +1,27 @@
+
+> healthcare-assistant-ts@0.1.0 dev /Users/aaravraina/Documents/HackHarvard/marco/healthcare-assistant-ts
+> next dev --turbopack --port 3001
+
+   ▲ Next.js 15.5.4 (Turbopack)
+   - Local:        http://localhost:3001
+   - Network:      http://10.253.136.27:3001
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 4.8s
+ ○ Compiling / ...
+ ✓ Compiled / in 13.1s
+ GET / 200 in 15162ms
+ GET / 200 in 352ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 25.2s
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 26990ms
+ GET / 200 in 14434ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 5995ms
+ GET / 200 in 539ms
+ GET / 200 in 563ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 321ms
+ GET / 200 in 451ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 611ms
+ GET / 200 in 1256ms
+[?25h

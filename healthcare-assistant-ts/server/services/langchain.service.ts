@@ -8,7 +8,8 @@ import { geminiService } from './gemini.service';
 
 // Define the tools for the agent
 const executeBrowserAction = tool(
-  async ({ instruction }: { instruction: string }) => {
+  async (input: unknown) => {
+    const { instruction } = input as { instruction: string };
     try {
       const result = await stagehandService.executeAgentInstruction(instruction);
       return JSON.stringify(result);
@@ -26,7 +27,8 @@ const executeBrowserAction = tool(
 );
 
 const analyzeCurrentPage = tool(
-  async ({ query }: { query: string }) => {
+  async (input: unknown) => {
+    const { query } = input as { query: string };
     try {
       // Take screenshot and analyze with Gemini
       const screenshot = await stagehandService.takeScreenshot();

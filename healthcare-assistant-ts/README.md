@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Healthcare Intake Assistant
 
-## Getting Started
+An AI-powered voice-controlled healthcare intake form assistant that helps patients navigate web forms through natural language commands.
 
-First, run the development server:
+## Features
 
+- 🎤 **Voice Recognition**: Speak commands naturally to control the browser
+- 🤖 **AI-Powered Navigation**: Uses Claude AI to understand and execute commands
+- 👁️ **Visual Analysis**: Analyzes web pages with Google Gemini
+- 🔊 **Text-to-Speech**: Provides audio feedback with ElevenLabs
+- 🌐 **Real-time Browser Control**: Live browser automation with Stagehand
+- 📱 **Responsive Design**: Works on desktop and mobile devices
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+
+- API keys for Anthropic, Google, and ElevenLabs
+
+### Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Setup
+Create a `.env.local` file:
+```bash
+ANTHROPIC_API_KEY=your_key_here
+ELEVEN_LABS_API_KEY=your_key_here
+GOOGLE_API_KEY=your_key_here
+NEXT_PUBLIC_API_URL=http://localhost:3003
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Development
+```bash
+# Start frontend
+npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Start backend (in another terminal)
+npm run dev:server
 
-## Learn More
+# Start both
+npm run dev:all
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Production Build
+```bash
+npm run build
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 
-## Deploy on Vercel
+### Quick Vercel Deployment
+1. Install Vercel CLI: `npm i -g vercel`
+2. Run: `vercel --prod`
+3. Configure environment variables in Vercel dashboard
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Voice Commands**: Click the microphone and speak commands like:
+   - "Search for medical forms"
+   - "Navigate to the patient portal"
+   - "Fill out the contact information"
+   - "What's on this page?"
+
+2. **Text Commands**: Type commands in the input field
+
+3. **Browser Control**: Watch real-time browser automation in the center panel
+
+## Architecture
+
+- **Frontend**: Next.js 15 with React 19, Tailwind CSS
+- **Backend**: Express.js with TypeScript
+- **AI**: Anthropic Claude, Google Gemini
+- **TTS**: ElevenLabs
+- **Automation**: Stagehand (Playwright-based)
+
+## API Endpoints
+
+- `GET /api/health` - Health check
+- `POST /api/browser/*` - Browser automation
+- `POST /api/agent/*` - AI agent processing
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details

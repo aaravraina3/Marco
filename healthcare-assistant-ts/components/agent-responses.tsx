@@ -113,7 +113,7 @@ export function AgentResponses({
                             ul: ({ children }) => <ul className="list-disc pl-4 mb-2">{children}</ul>,
                             ol: ({ children }) => <ol className="list-decimal pl-4 mb-2">{children}</ol>,
                             li: ({ children }) => <li className="mb-1">{children}</li>,
-                            code: ({ inline, children, ...props }) => (
+                            code: ({ inline, children, ...props }: any) => (
                               inline 
                                 ? <code className="px-1 py-0.5 bg-black/10 dark:bg-white/10 rounded text-xs" {...props}>{children}</code>
                                 : <pre className="p-2 bg-black/10 dark:bg-white/10 rounded overflow-x-auto"><code {...props}>{children}</code></pre>

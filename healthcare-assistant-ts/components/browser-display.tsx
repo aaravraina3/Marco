@@ -172,7 +172,7 @@ export function BrowserDisplay({
             <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded">
               <div className="text-white text-center">
                 <p className="text-lg font-medium">Browser Stream Paused</p>
-                <p className="text-sm mt-2">Click "Start Streaming" to begin</p>
+                <p className="text-sm mt-2">Click &quot;Start Streaming&quot; to begin</p>
               </div>
             </div>
           )}
